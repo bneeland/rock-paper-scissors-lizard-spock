@@ -1,3 +1,7 @@
+require('dotenv').config()
+const HDWalletProvider = require("@truffle/hdwallet-provider")
+
+
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -6,7 +10,7 @@
  *
  * More information about configuration can be found at:
  *
- * trufflesuite.com/docs/advanced/configuration
+ * truffleframework.com/docs/advanced/configuration
  *
  * To deploy via Infura you'll need a wallet provider (like @truffle/hdwallet-provider)
  * to sign your transactions before they're sent to a remote public node. Infura accounts
@@ -19,6 +23,7 @@
  */
 
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
+// const infuraKey = "fj4jll3k.....";
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
@@ -53,10 +58,31 @@ module.exports = {
     // gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
     // gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
     // from: <address>,        // Account to send txs from (default: accounts[0])
-    // websocket: true        // Enable EventEmitter interface for web3 (default: false)
+    // websockets: true        // Enable EventEmitter interface for web3 (default: false)
     // },
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
+    // rinkeby: {
+    //   provider: () => new HDWalletProvider({
+    //     privateKeys: [process.env.PRIVATE_KEY_1],
+    //     providerOrUrl: process.env.INFURA_API_URL,
+    //     numberOfAddresses: 2
+    //   }),
+    //   network_id: 4,
+    //   gas: 5500000,
+    //   confirmations: 2,
+    //   timeoutBlocks: 200,
+    //   skipDryRun: true
+    // },
+    kovan: {
+      provider: () => new HDWalletProvider({
+        privateKeys: [process.env.PRIVATE_KEY_1],
+        providerOrUrl: process.env.INFURA_API_URL,
+        numberOfAddresses: 2
+      }),
+      network_id: 42,
+      gas: 5500000
+    },
     // ropsten: {
     // provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/YOUR-PROJECT-ID`),
     // network_id: 3,       // Ropsten's id
@@ -81,7 +107,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.11",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "^0.4.9",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
@@ -90,27 +116,6 @@ module.exports = {
       //  },
       //  evmVersion: "byzantium"
       // }
-    }
+    },
   },
-
-  // Truffle DB is currently disabled by default; to enable it, change enabled:
-  // false to enabled: true. The default storage location can also be
-  // overridden by specifying the adapter settings, as shown in the commented code below.
-  //
-  // NOTE: It is not possible to migrate your contracts to truffle DB and you should
-  // make a backup of your artifacts to a safe location before enabling this feature.
-  //
-  // After you backed up your artifacts you can utilize db by running migrate as follows: 
-  // $ truffle migrate --reset --compile-all
-  //
-  // db: {
-    // enabled: false,
-    // host: "127.0.0.1",
-    // adapter: {
-    //   name: "sqlite",
-    //   settings: {
-    //     directory: ".db"
-    //   }
-    // }
-  // }
 };
