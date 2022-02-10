@@ -7,6 +7,7 @@ const Home = () => {
   const [error, setError] = useState('')
   const [web3, setWeb3] = useState(null)
   const [address, setAddress] = useState(null)
+  const [contract, setContract] = useState(null)
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -49,10 +50,16 @@ const Home = () => {
         gas: '4700000'
     }, function (e, contract){
       console.log(e, contract);
+      setContract(contract);
       if (typeof contract.address !== 'undefined') {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+        setContract(contract.address);
       }
     })
+  }
+
+  function logContract() {
+    console.log(contract)
   }
 
 
@@ -86,6 +93,8 @@ const Home = () => {
       <hr />
       <h2>Player 1</h2>
       <button onClick={deployRPS}>RPS</button>
+      <p>Contract address: {contract}</p>
+      <button onClick={logContract}>Log contract</button>
       <button>solve</button>
       <hr />
       <h2>Player 2</h2>
