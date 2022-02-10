@@ -1,19 +1,26 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import {useState} from 'react'
 import Web3 from 'web3'
 
 const Home = () => {
+  const [error, setError] = useState('')
+
   let web3
 
-  const connectWalletHandler = () => {
+  const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
       // MetaMask installed
       // Connect to MetaMask wallet
-      window.ethereum.request({method: "eth_requestAccounts"})
-      web3 = new Web3(window.ethereum)
+      try {
+        await window.ethereum.request({method: "eth_requestAccounts"})
+        web3 = new Web3(window.ethereum)
+      } catch(err) {
+        setError(err.message)
+      }
     } else {
       // MetaMask not installed
-      console.log("Please install MetaMask")
+      setError("Please install MetaMask")
     }
   }
 
@@ -33,6 +40,8 @@ const Home = () => {
       <hr />
       <h2>Player 2</h2>
       <button>play</button>
+      <hr />
+      <code>{error}</code>
     </div>
   )
 }
