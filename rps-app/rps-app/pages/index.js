@@ -14,6 +14,7 @@ const Home = () => {
   const [c1CommitmentInput, setC1CommitmentInput] = useState(0)
   const [c1Hash, setC1Hash] = useState(null)
   const [stake, setStake] = useState(null)
+  const [c2Input, setC2Input] = useState(0)
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -127,6 +128,10 @@ const Home = () => {
     }
   }
 
+  const c2InputHandler = event => {
+    setC2Input(event.target.value)
+  }
+
   return (
     <div>
       <Head>
@@ -146,11 +151,11 @@ const Home = () => {
       <p><small><code>Hasher contract address: {contractAddressHasher}</code></small></p>
       <h3>Step 2: Enter move (to be committed) and get c1Hash</h3>
       <div>
-        <input type="radio" name="c1CommitmentInput" id="rock" value="1" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="rock">Rock</label>
-        <input type="radio" name="c1CommitmentInput" id="paper" value="2" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="paper">Paper</label>
-        <input type="radio" name="c1CommitmentInput" id="scissors" value="3" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="scissors">Scissors</label>
-        <input type="radio" name="c1CommitmentInput" id="spock" value="4" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="spock">Spock</label>
-        <input type="radio" name="c1CommitmentInput" id="Lizard" value="5" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="Lizard">Lizard</label>
+        <input type="radio" name="c1CommitmentInput" id="rock" value="1" onChange={c1CommitmentInputHandler} /><label htmlFor="rock">Rock</label>
+        <input type="radio" name="c1CommitmentInput" id="paper" value="2" onChange={c1CommitmentInputHandler} /><label htmlFor="paper">Paper</label>
+        <input type="radio" name="c1CommitmentInput" id="scissors" value="3" onChange={c1CommitmentInputHandler} /><label htmlFor="scissors">Scissors</label>
+        <input type="radio" name="c1CommitmentInput" id="spock" value="4" onChange={c1CommitmentInputHandler} /><label htmlFor="spock">Spock</label>
+        <input type="radio" name="c1CommitmentInput" id="Lizard" value="5" onChange={c1CommitmentInputHandler} /><label htmlFor="Lizard">Lizard</label>
         <br /><small><code>c1CommitmentInput: {c1CommitmentInput}</code></small>
       </div>
       <button onClick={callHasherContract}>Call Hasher contract (get c1Hash)</button>
@@ -176,6 +181,15 @@ const Home = () => {
       <h3>Step 5: Get stake</h3>
       <button onClick={getStakeHandler}>Get stake</button>
       <p><small><code>Stake: {stake} ETH</code></small></p>
+      <h3>Step 6: Pick a move, accept the stake, and commit to the contract</h3>
+      <div>
+      <input type="radio" name="c2Input" id="rock" value="1" onChange={c2InputHandler} /><label htmlFor="rock">Rock</label>
+      <input type="radio" name="c2Input" id="paper" value="2" onChange={c2InputHandler} /><label htmlFor="paper">Paper</label>
+      <input type="radio" name="c2Input" id="scissors" value="3" onChange={c2InputHandler} /><label htmlFor="scissors">Scissors</label>
+      <input type="radio" name="c2Input" id="spock" value="4" onChange={c2InputHandler} /><label htmlFor="spock">Spock</label>
+      <input type="radio" name="c2Input" id="Lizard" value="5" onChange={c2InputHandler} /><label htmlFor="Lizard">Lizard</label>
+      <br /><small><code>c2Input: {c2Input}</code></small>
+      </div>
       <button>play</button>
       <hr />
       <button>solve</button>
