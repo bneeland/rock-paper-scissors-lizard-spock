@@ -10,6 +10,7 @@ const Home = () => {
   const [contractTransactionHashRPS, setContractTransactionHashRPS] = useState(null)
   const [contractTransactionHashHasher, setContractTransactionHashHasher] = useState(null)
   const [contractAddressHasher, setContractAddressHasher] = useState(null)
+  const [contractAddressRPS, setContractAddressRPS] = useState(null)
   const [c1CommitmentInput, setC1CommitmentInput] = useState(0)
   const [c1Hash, setC1Hash] = useState(null)
 
@@ -39,7 +40,7 @@ const Home = () => {
     console.log(web3.eth.accounts[0])
 
     /* RPS compiled contract */
-    var _c1Hash = '0x48b0517dc17384a96f0dde4440cc4101d2d7f669f62c2a4395c27d7a2e791474'
+    var _c1Hash = c1Hash
     var _j2 = '0xAFfef56b5EaE0f3107BD5c130591a8496c39a928'
     var rpsContract = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_c2","type":"uint8"}],"name":"win","outputs":[{"name":"w","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j2Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"stake","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c2","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c1Hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c2","type":"uint8"}],"name":"play","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"j2","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastAction","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"solve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"j1","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j1Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"TIMEOUT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_c1Hash","type":"bytes32"},{"name":"_j2","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}]);
     var rps = rpsContract.deploy({
@@ -91,6 +92,11 @@ const Home = () => {
     setContractAddressHasher(transactionReceipt.contractAddress)
   }
 
+  const getRPSContractAddress = async () => {
+    const transactionReceipt = await web3.eth.getTransactionReceipt(contractTransactionHashRPS)
+    setContractAddressRPS(transactionReceipt.contractAddress)
+  }
+
   const callHasherContract = () => {
     var contractHasher = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}], contractAddressHasher)
     try {
@@ -133,6 +139,8 @@ const Home = () => {
       <h3>Step 3: Deploy RPS contract</h3>
       <button onClick={deployRPS}>Deploy RPS</button>
       <p><small><code>RPS contract transaction hash: {contractTransactionHashRPS}</code></small></p>
+      <button onClick={getRPSContractAddress}>Get RPS contract address</button>
+      <p><small><code>RPS contract address: {contractAddressRPS}</code></small></p>
       <button>solve</button>
       <hr />
       <h2>Player 2</h2>
