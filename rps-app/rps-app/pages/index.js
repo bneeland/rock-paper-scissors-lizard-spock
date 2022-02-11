@@ -7,8 +7,9 @@ const Home = () => {
   const [error, setError] = useState('')
   const [web3, setWeb3] = useState(null)
   const [accountAddress, setAccountAddress] = useState(null)
-  const [contractRPS, setContractRPS] = useState(null)
-  const [contractHasher, setContractHasher] = useState(null)
+  const [contractTransactionHashRPS, setContractTransactionHashRPS] = useState(null)
+  const [contractTransactionHashHasher, setContractTransactionHashHasher] = useState(null)
+  const [contractAddressHasher, setContractAddressHasher] = useState(null)
   const [c1CommitmentInput, setC1CommitmentInput] = useState(null)
 
   const connectWalletHandler = async () => {
@@ -53,7 +54,7 @@ const Home = () => {
         gas: '4700000'
     }, function (e, contract){
       console.log(e, contract);
-      setContractRPS(contract);
+      setContractTransactionHashRPS(contract);
       if (typeof contract.address !== 'undefined') {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
       }
@@ -71,9 +72,21 @@ const Home = () => {
       // from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
       from: accountAddress,
         gas: '4700000'
-    }, function (e, contract){
+    }, async function (e, contract){
       console.log(e, contract);
-      setContractHasher(contract);
+      console.log("contract" + contract);
+      let transactionHash = contract
+      console.log("transactionHash" + transactionHash)
+      const transactionReceipt = await web3.eth.getTransactionReceipt(transactionHash)
+      console.log(transactionReceipt)
+      // let transactionReceipt = web3.eth.getTransactionReceipt(transactionHash)
+      // console.log("transactionReceipt" + transactionReceipt)
+      // transactionReceipt
+      //   .then(result => result.data)
+      //   .then(data => console.log(data))
+      // let contractAddress = transactionReceipt.contractAddress
+      // console.log("contractAddress" + contractAddress)
+      setContractTransactionHashHasher(contract);
       if (typeof contract.address !== 'undefined') {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
       }
@@ -82,6 +95,11 @@ const Home = () => {
 
   const c1CommitmentInputHandler = event => {
     setC1CommitmentInput(event.target.value)
+  }
+
+  const getHasherContractAddress = async () => {
+    const transactionReceipt = await web3.eth.getTransactionReceipt(contractTransactionHashHasher)
+    setContractAddressHasher(transactionReceipt.contractAddress)
   }
 
   return (
@@ -98,13 +116,15 @@ const Home = () => {
       <h2>Player 1</h2>
       <h3>Step 1: Deploy Hasher contract</h3>
       <button onClick={deployHasher}>Deploy Hasher</button>
-      <p><small><code>Hasher contract transaction: {contractHasher}</code></small></p>
+      <p><small><code>Hasher contract transaction hash: {contractTransactionHashHasher}</code></small></p>
+      <button onClick={getHasherContractAddress}>Get Hasher contract address</button>
+      <p><small><code>Hasher contract address: {contractAddressHasher}</code></small></p>
       <h3>Step 2: Enter move (to be committed) and deploy RPS contract</h3>
       <div>
         <input onChange={c1CommitmentInputHandler} placeholder="Player 1 move, to be committed" />
       </div>
       <button onClick={deployRPS}>Deploy RPS</button>
-      <p><small><code>RPS contract transaction: {contractRPS}</code></small></p>
+      <p><small><code>RPS contract transaction hash: {contractTransactionHashRPS}</code></small></p>
       <button>solve</button>
       <hr />
       <h2>Player 2</h2>
