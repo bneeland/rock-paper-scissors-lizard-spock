@@ -7,7 +7,8 @@ const Home = () => {
   const [error, setError] = useState('')
   const [web3, setWeb3] = useState(null)
   const [address, setAddress] = useState(null)
-  const [contract, setContract] = useState(null)
+  const [contractRPS, setContractRPS] = useState(null)
+  const [contractHasher, setContractHasher] = useState(null)
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -50,35 +51,31 @@ const Home = () => {
         gas: '4700000'
     }, function (e, contract){
       console.log(e, contract);
-      setContract(contract);
+      setContractRPS(contract);
       if (typeof contract.address !== 'undefined') {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
-        setContract(contract.address);
       }
     })
   }
 
-  function logContract() {
-    console.log(contract)
+  const deployHasher = () => {
+    /* Hasher compiled contract */
+    var hasherContract = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}]);
+    var hasher = hasherContract.deploy({
+      data: '0x608060405234801561001057600080fd5b50610113806100206000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806367ef4c13146044575b600080fd5b348015604f57600080fd5b506079600480360381019080803560ff169060200190929190803590602001909291905050506097565b60405180826000191660001916815260200191505060405180910390f35b60008282604051808360ff1660ff167f01000000000000000000000000000000000000000000000000000000000000000281526001018281526020019250505060405180910390209050929150505600a165627a7a72305820e54c8e0119de19ea5efcc52800c2b4e2fcb121ec0fb01e4695a4a3471a9664000029',
+      arguments: [
+      ]
+    }).send({
+      from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
+        gas: '4700000'
+    }, function (e, contract){
+      console.log(e, contract);
+      setContractHasher(contract);
+      if (typeof contract.address !== 'undefined') {
+        console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+      }
+    })
   }
-
-
-  /* Hasher compiled contract */
-  // var hasherContract = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}]);
-  // var hasher = hasherContract.deploy({
-  //   data: '0x608060405234801561001057600080fd5b50610113806100206000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806367ef4c13146044575b600080fd5b348015604f57600080fd5b506079600480360381019080803560ff169060200190929190803590602001909291905050506097565b60405180826000191660001916815260200191505060405180910390f35b60008282604051808360ff1660ff167f01000000000000000000000000000000000000000000000000000000000000000281526001018281526020019250505060405180910390209050929150505600a165627a7a72305820e54c8e0119de19ea5efcc52800c2b4e2fcb121ec0fb01e4695a4a3471a9664000029',
-  //   arguments: [
-  //   ]
-  // }).send({
-  //   from: web3.eth.accounts[0],
-  //     gas: '4700000'
-  // }, function (e, contract){
-  //   console.log(e, contract);
-  //   if (typeof contract.address !== 'undefined') {
-  //     console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
-  //   }
-  // })
-
 
   return (
     <div>
@@ -93,8 +90,9 @@ const Home = () => {
       <hr />
       <h2>Player 1</h2>
       <button onClick={deployRPS}>RPS</button>
-      <p>Contract address: {contract}</p>
-      <button onClick={logContract}>Log contract</button>
+      <p>RPS contract transaction: {contractRPS}</p>
+      <button onClick={deployHasher}>Hasher</button>
+      <p>Hasher contract transaction: {contractHasher}</p>
       <button>solve</button>
       <hr />
       <h2>Player 2</h2>
