@@ -13,6 +13,7 @@ const Home = () => {
   const [contractAddressRPS, setContractAddressRPS] = useState(null)
   const [c1CommitmentInput, setC1CommitmentInput] = useState(0)
   const [c1Hash, setC1Hash] = useState(null)
+  const [stake, setStake] = useState(null)
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -37,8 +38,6 @@ const Home = () => {
 
 
   const deployRPS = () => {
-    console.log(web3.eth.accounts[0])
-
     /* RPS compiled contract */
     var _c1Hash = c1Hash
     var _j2 = '0xAFfef56b5EaE0f3107BD5c130591a8496c39a928'
@@ -53,7 +52,8 @@ const Home = () => {
       // from: web3.eth.accounts[0],
       // from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
       from: accountAddress,
-        gas: '4700000'
+      gas: '4700000',
+      value: web3.utils.toWei(stake, "ether")
     }, function (e, contract){
       console.log(e, contract);
       setContractTransactionHashRPS(contract);
@@ -73,7 +73,7 @@ const Home = () => {
     }).send({
       // from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
       from: accountAddress,
-        gas: '4700000'
+      gas: '4700000'
     }, async function (e, contract){
       console.log(e, contract);
       setContractTransactionHashHasher(contract);
@@ -108,6 +108,10 @@ const Home = () => {
     }
   }
 
+  const setStakeHandler = event => {
+    setStake(event.target.value)
+  }
+
   return (
     <div>
       <Head>
@@ -137,14 +141,18 @@ const Home = () => {
       <button onClick={callHasherContract}>Call Hasher contract (get c1Hash)</button>
       <p><small><code>c1Hash: {c1Hash}</code></small></p>
       <h3>Step 3: Deploy RPS contract</h3>
+      <div>
+        <input onChange={setStakeHandler} placeholder="Stake (in ETH)" />
+        <br /><small><code>Stake: {stake} ETH</code></small>
+      </div>
       <button onClick={deployRPS}>Deploy RPS</button>
       <p><small><code>RPS contract transaction hash: {contractTransactionHashRPS}</code></small></p>
       <button onClick={getRPSContractAddress}>Get RPS contract address</button>
       <p><small><code>RPS contract address: {contractAddressRPS}</code></small></p>
-      <button>solve</button>
-      <hr />
       <h2>Player 2</h2>
       <button>play</button>
+      <hr />
+      <button>solve</button>
       <hr />
       <code>{error}</code>
     </div>
