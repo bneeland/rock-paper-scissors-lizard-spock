@@ -14,7 +14,7 @@ const Home = () => {
   const [c1CommitmentInput, setC1CommitmentInput] = useState(0)
   const [c1Hash, setC1Hash] = useState(null)
   const [stake, setStake] = useState(null)
-  const [c2Input, setC2Input] = useState(0)
+  const [c2, setC2] = useState(0)
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -75,7 +75,7 @@ const Home = () => {
       // from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
       from: accountAddress,
       gas: '4700000'
-    }, async function (e, contract){
+    }, async function (e, contract){ // Remove/delete aync?
       console.log(e, contract);
       setContractTransactionHashHasher(contract);
       if (typeof contract.address !== 'undefined') {
@@ -129,7 +129,20 @@ const Home = () => {
   }
 
   const c2InputHandler = event => {
-    setC2Input(event.target.value)
+    setC2(event.target.value)
+  }
+
+  const playHandler = async () => {
+    var contractRPS = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_c2","type":"uint8"}],"name":"win","outputs":[{"name":"w","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j2Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"stake","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c2","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c1Hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c2","type":"uint8"}],"name":"play","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"j2","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastAction","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"solve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"j1","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j1Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"TIMEOUT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_c1Hash","type":"bytes32"},{"name":"_j2","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}], contractAddressRPS)
+    try {
+      await contractRPS.methods.play(c2).send({
+        from: accountAddress,
+        gas: '4700000',
+        value: web3.utils.toWei(stake, "ether")
+      })
+    } catch(error) {
+      setError(error.message)
+    }
   }
 
   return (
@@ -151,11 +164,11 @@ const Home = () => {
       <p><small><code>Hasher contract address: {contractAddressHasher}</code></small></p>
       <h3>Step 2: Enter move (to be committed) and get c1Hash</h3>
       <div>
-        <input type="radio" name="c1CommitmentInput" id="rock" value="1" onChange={c1CommitmentInputHandler} /><label htmlFor="rock">Rock</label>
-        <input type="radio" name="c1CommitmentInput" id="paper" value="2" onChange={c1CommitmentInputHandler} /><label htmlFor="paper">Paper</label>
-        <input type="radio" name="c1CommitmentInput" id="scissors" value="3" onChange={c1CommitmentInputHandler} /><label htmlFor="scissors">Scissors</label>
-        <input type="radio" name="c1CommitmentInput" id="spock" value="4" onChange={c1CommitmentInputHandler} /><label htmlFor="spock">Spock</label>
-        <input type="radio" name="c1CommitmentInput" id="Lizard" value="5" onChange={c1CommitmentInputHandler} /><label htmlFor="Lizard">Lizard</label>
+        <input type="radio" name="c1CommitmentInput" id="c1rock" value="1" onChange={c1CommitmentInputHandler} /><label htmlFor="c1rock">Rock</label>
+        <input type="radio" name="c1CommitmentInput" id="c1paper" value="2" onChange={c1CommitmentInputHandler} /><label htmlFor="c1paper">Paper</label>
+        <input type="radio" name="c1CommitmentInput" id="c1scissors" value="3" onChange={c1CommitmentInputHandler} /><label htmlFor="c1scissors">Scissors</label>
+        <input type="radio" name="c1CommitmentInput" id="c1spock" value="4" onChange={c1CommitmentInputHandler} /><label htmlFor="c1spock">Spock</label>
+        <input type="radio" name="c1CommitmentInput" id="c1lizard" value="5" onChange={c1CommitmentInputHandler} /><label htmlFor="c1lizard">Lizard</label>
         <br /><small><code>c1CommitmentInput: {c1CommitmentInput}</code></small>
       </div>
       <button onClick={callHasherContract}>Call Hasher contract (get c1Hash)</button>
@@ -183,14 +196,14 @@ const Home = () => {
       <p><small><code>Stake: {stake} ETH</code></small></p>
       <h3>Step 6: Pick a move, accept the stake, and commit to the contract</h3>
       <div>
-      <input type="radio" name="c2Input" id="rock" value="1" onChange={c2InputHandler} /><label htmlFor="rock">Rock</label>
-      <input type="radio" name="c2Input" id="paper" value="2" onChange={c2InputHandler} /><label htmlFor="paper">Paper</label>
-      <input type="radio" name="c2Input" id="scissors" value="3" onChange={c2InputHandler} /><label htmlFor="scissors">Scissors</label>
-      <input type="radio" name="c2Input" id="spock" value="4" onChange={c2InputHandler} /><label htmlFor="spock">Spock</label>
-      <input type="radio" name="c2Input" id="Lizard" value="5" onChange={c2InputHandler} /><label htmlFor="Lizard">Lizard</label>
-      <br /><small><code>c2Input: {c2Input}</code></small>
+      <input type="radio" name="c2Input" id="c2rock" value="1" onChange={c2InputHandler} /><label htmlFor="c2rock">Rock</label>
+      <input type="radio" name="c2Input" id="c2paper" value="2" onChange={c2InputHandler} /><label htmlFor="c2paper">Paper</label>
+      <input type="radio" name="c2Input" id="c2scissors" value="3" onChange={c2InputHandler} /><label htmlFor="c2scissors">Scissors</label>
+      <input type="radio" name="c2Input" id="c2spock" value="4" onChange={c2InputHandler} /><label htmlFor="c2spock">Spock</label>
+      <input type="radio" name="c2Input" id="c2lizard" value="5" onChange={c2InputHandler} /><label htmlFor="c2lizard">Lizard</label>
+      <br /><small><code>c2: {c2}</code></small>
       </div>
-      <button>play</button>
+      <button onClick={playHandler}>play</button>
       <hr />
       <button>solve</button>
       <hr />
