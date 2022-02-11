@@ -6,9 +6,10 @@ import Web3 from 'web3'
 const Home = () => {
   const [error, setError] = useState('')
   const [web3, setWeb3] = useState(null)
-  const [address, setAddress] = useState(null)
+  const [accountAddress, setAccountAddress] = useState(null)
   const [contractRPS, setContractRPS] = useState(null)
   const [contractHasher, setContractHasher] = useState(null)
+  const [c1CommitmentInput, setC1CommitmentInput] = useState(null)
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -21,7 +22,7 @@ const Home = () => {
         setWeb3(web3)
         // Get list of accounts connected through wallet
         const accounts = await web3.eth.getAccounts()
-        setAddress(accounts[0])
+        setAccountAddress(accounts[0])
       } catch(err) {
         setError(err.message)
       }
@@ -47,7 +48,8 @@ const Home = () => {
       ]
     }).send({
       // from: web3.eth.accounts[0],
-      from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
+      // from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
+      from: accountAddress,
         gas: '4700000'
     }, function (e, contract){
       console.log(e, contract);
@@ -66,7 +68,8 @@ const Home = () => {
       arguments: [
       ]
     }).send({
-      from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
+      // from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
+      from: accountAddress,
         gas: '4700000'
     }, function (e, contract){
       console.log(e, contract);
@@ -75,6 +78,10 @@ const Home = () => {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
       }
     })
+  }
+
+  const c1CommitmentInputHandler = event => {
+    setC1CommitmentInput(event.target.value)
   }
 
   return (
@@ -86,13 +93,18 @@ const Home = () => {
       <h1 className={styles.title}>Rock Paper Scissors Spock Lizard</h1>
       <p>An enhanced version of Rock Paper Scissors, running on the blockchain</p>
       <button onClick={connectWalletHandler}>Connect wallet</button>
-      <small><code>{address}</code></small>
+      <p><small><code>Account: {accountAddress}</code></small></p>
       <hr />
       <h2>Player 1</h2>
-      <button onClick={deployRPS}>RPS</button>
-      <p>RPS contract transaction: {contractRPS}</p>
-      <button onClick={deployHasher}>Hasher</button>
-      <p>Hasher contract transaction: {contractHasher}</p>
+      <h3>Step 1: Deploy Hasher contract</h3>
+      <button onClick={deployHasher}>Deploy Hasher</button>
+      <p><small><code>Hasher contract transaction: {contractHasher}</code></small></p>
+      <h3>Step 2: Enter move (to be committed) and deploy RPS contract</h3>
+      <div>
+        <input onChange={c1CommitmentInputHandler} placeholder="Player 1 move, to be committed" />
+      </div>
+      <button onClick={deployRPS}>Deploy RPS</button>
+      <p><small><code>RPS contract transaction: {contractRPS}</code></small></p>
       <button>solve</button>
       <hr />
       <h2>Player 2</h2>
