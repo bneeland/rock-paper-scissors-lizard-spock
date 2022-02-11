@@ -108,12 +108,23 @@ const Home = () => {
     }
   }
 
-  const setStakeHandler = event => {
+  const stakeInputHandler = event => {
     setStake(event.target.value)
   }
 
-  const setContractAddressRPSHandler = event => {
+  const contractAddressRPSInputHandler = event => {
     setContractAddressRPS(event.target.value)
+  }
+
+  const getStakeHandler = () => {
+    var contractRPS = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_c2","type":"uint8"}],"name":"win","outputs":[{"name":"w","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j2Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"stake","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c2","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c1Hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c2","type":"uint8"}],"name":"play","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"j2","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastAction","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"solve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"j1","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j1Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"TIMEOUT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_c1Hash","type":"bytes32"},{"name":"_j2","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}], contractAddressRPS)
+    try {
+      contractRPS.methods.stake().call((error, result) => {
+        setStake(web3.utils.fromWei(result, "ether"))
+      })
+    } catch(error) {
+      setError(error.message)
+    }
   }
 
   return (
@@ -146,7 +157,7 @@ const Home = () => {
       <p><small><code>c1Hash: {c1Hash}</code></small></p>
       <h3>Step 3: Deploy RPS contract</h3>
       <div>
-        <input onChange={setStakeHandler} placeholder="Stake (in ETH)" />
+        <input onChange={stakeInputHandler} placeholder="Stake (in ETH)" />
         <br /><small><code>Stake: {stake} ETH</code></small>
       </div>
       <button onClick={deployRPS}>Deploy RPS</button>
@@ -159,9 +170,12 @@ const Home = () => {
       <p>Player 1 should have deployed an RPS contract to start a game for you to join, and should have staked ETH into that RPS contract as a bet on the game.</p>
       <p>You need to get the address of that RPS contract so you can join as player 2 for that game.</p>
       <div>
-        <input onChange={setContractAddressRPSHandler} placeholder="RPS contract address" />
+        <input onChange={contractAddressRPSInputHandler} placeholder="RPS contract address" />
         <br /><small><code>RPS contract address: {contractAddressRPS}</code></small>
       </div>
+      <h3>Step 5: Get stake</h3>
+      <button onClick={getStakeHandler}>Get stake</button>
+      <p><small><code>Stake: {stake} ETH</code></small></p>
       <button>play</button>
       <hr />
       <button>solve</button>
@@ -171,7 +185,8 @@ const Home = () => {
   )
 }
 
-// RPS contract address from Player 1, for Player 2 to play: 0xbD14dB72014492DFDd2A0d16d250FE7Ab0779b5F
+// RPS contract address from Player 1, for Player 2 to play:
+// 0xbD14dB72014492DFDd2A0d16d250FE7Ab0779b5F
 // Stake = 0.002
 // c1 = 2 (Paper)
 
