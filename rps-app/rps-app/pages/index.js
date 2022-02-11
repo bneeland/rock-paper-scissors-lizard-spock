@@ -11,6 +11,7 @@ const Home = () => {
   const [contractTransactionHashHasher, setContractTransactionHashHasher] = useState(null)
   const [contractAddressHasher, setContractAddressHasher] = useState(null)
   const [c1CommitmentInput, setC1CommitmentInput] = useState(null)
+  const [c1Hash, setC1Hash] = useState(null)
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -24,8 +25,8 @@ const Home = () => {
         // Get list of accounts connected through wallet
         const accounts = await web3.eth.getAccounts()
         setAccountAddress(accounts[0])
-      } catch(err) {
-        setError(err.message)
+      } catch(error) {
+        setError(error.message)
       }
     } else {
       // MetaMask not installed
@@ -102,6 +103,17 @@ const Home = () => {
     setContractAddressHasher(transactionReceipt.contractAddress)
   }
 
+  const callHasherContract = () => {
+    var contractHasher = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}], contractAddressHasher)
+    try {
+      contractHasher.methods.hash(c1CommitmentInput, 123).call((error, result) => {
+        setC1Hash(result)
+      })
+    } catch(error) {
+      setError(error.message)
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -119,10 +131,18 @@ const Home = () => {
       <p><small><code>Hasher contract transaction hash: {contractTransactionHashHasher}</code></small></p>
       <button onClick={getHasherContractAddress}>Get Hasher contract address</button>
       <p><small><code>Hasher contract address: {contractAddressHasher}</code></small></p>
-      <h3>Step 2: Enter move (to be committed) and deploy RPS contract</h3>
+      <h3>Step 2: Enter move (to be committed) and get c1Hash</h3>
       <div>
-        <input onChange={c1CommitmentInputHandler} placeholder="Player 1 move, to be committed" />
+        <input type="radio" name="c1CommitmentInput" id="rock" value="1" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="rock">Rock</label>
+        <input type="radio" name="c1CommitmentInput" id="paper" value="2" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="paper">Paper</label>
+        <input type="radio" name="c1CommitmentInput" id="scissors" value="3" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="scissors">Scissors</label>
+        <input type="radio" name="c1CommitmentInput" id="spock" value="4" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="spock">Spock</label>
+        <input type="radio" name="c1CommitmentInput" id="Lizard" value="5" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="Lizard">Lizard</label>
+        <br /><small><code>c1CommitmentInput: {c1CommitmentInput}</code></small>
       </div>
+      <button onClick={callHasherContract}>Call Hasher contract (get c1Hash)</button>
+      <p><small><code>c1Hash: {c1Hash}</code></small></p>
+      <h3>Step 3: Deploy RPS contract</h3>
       <button onClick={deployRPS}>Deploy RPS</button>
       <p><small><code>RPS contract transaction hash: {contractTransactionHashRPS}</code></small></p>
       <button>solve</button>
