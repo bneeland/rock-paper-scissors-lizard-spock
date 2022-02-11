@@ -112,6 +112,10 @@ const Home = () => {
     setStake(event.target.value)
   }
 
+  const setContractAddressRPSHandler = event => {
+    setContractAddressRPS(event.target.value)
+  }
+
   return (
     <div>
       <Head>
@@ -149,7 +153,15 @@ const Home = () => {
       <p><small><code>RPS contract transaction hash: {contractTransactionHashRPS}</code></small></p>
       <button onClick={getRPSContractAddress}>Get RPS contract address</button>
       <p><small><code>RPS contract address: {contractAddressRPS}</code></small></p>
+      <hr />
       <h2>Player 2</h2>
+      <h3>Step 4: Set RPS contract address</h3>
+      <p>Player 1 should have deployed an RPS contract to start a game for you to join, and should have staked ETH into that RPS contract as a bet on the game.</p>
+      <p>You need to get the address of that RPS contract so you can join as player 2 for that game.</p>
+      <div>
+        <input onChange={setContractAddressRPSHandler} placeholder="RPS contract address" />
+        <br /><small><code>RPS contract address: {contractAddressRPS}</code></small>
+      </div>
       <button>play</button>
       <hr />
       <button>solve</button>
@@ -158,5 +170,10 @@ const Home = () => {
     </div>
   )
 }
+
+// RPS contract address from Player 1, for Player 2 to play: 0xbD14dB72014492DFDd2A0d16d250FE7Ab0779b5F
+// Stake = 0.002
+// c1 = 2 (Paper)
+
 
 export default Home
