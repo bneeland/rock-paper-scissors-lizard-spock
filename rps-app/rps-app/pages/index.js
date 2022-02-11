@@ -10,7 +10,7 @@ const Home = () => {
   const [contractTransactionHashRPS, setContractTransactionHashRPS] = useState(null)
   const [contractTransactionHashHasher, setContractTransactionHashHasher] = useState(null)
   const [contractAddressHasher, setContractAddressHasher] = useState(null)
-  const [c1CommitmentInput, setC1CommitmentInput] = useState(null)
+  const [c1CommitmentInput, setC1CommitmentInput] = useState(0)
   const [c1Hash, setC1Hash] = useState(null)
 
   const connectWalletHandler = async () => {
@@ -75,18 +75,6 @@ const Home = () => {
         gas: '4700000'
     }, async function (e, contract){
       console.log(e, contract);
-      console.log("contract" + contract);
-      let transactionHash = contract
-      console.log("transactionHash" + transactionHash)
-      const transactionReceipt = await web3.eth.getTransactionReceipt(transactionHash)
-      console.log(transactionReceipt)
-      // let transactionReceipt = web3.eth.getTransactionReceipt(transactionHash)
-      // console.log("transactionReceipt" + transactionReceipt)
-      // transactionReceipt
-      //   .then(result => result.data)
-      //   .then(data => console.log(data))
-      // let contractAddress = transactionReceipt.contractAddress
-      // console.log("contractAddress" + contractAddress)
       setContractTransactionHashHasher(contract);
       if (typeof contract.address !== 'undefined') {
         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
@@ -133,11 +121,11 @@ const Home = () => {
       <p><small><code>Hasher contract address: {contractAddressHasher}</code></small></p>
       <h3>Step 2: Enter move (to be committed) and get c1Hash</h3>
       <div>
-        <input type="radio" name="c1CommitmentInput" id="rock" value="1" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="rock">Rock</label>
-        <input type="radio" name="c1CommitmentInput" id="paper" value="2" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="paper">Paper</label>
-        <input type="radio" name="c1CommitmentInput" id="scissors" value="3" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="scissors">Scissors</label>
-        <input type="radio" name="c1CommitmentInput" id="spock" value="4" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="spock">Spock</label>
-        <input type="radio" name="c1CommitmentInput" id="Lizard" value="5" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label for="Lizard">Lizard</label>
+        <input type="radio" name="c1CommitmentInput" id="rock" value="1" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="rock">Rock</label>
+        <input type="radio" name="c1CommitmentInput" id="paper" value="2" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="paper">Paper</label>
+        <input type="radio" name="c1CommitmentInput" id="scissors" value="3" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="scissors">Scissors</label>
+        <input type="radio" name="c1CommitmentInput" id="spock" value="4" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="spock">Spock</label>
+        <input type="radio" name="c1CommitmentInput" id="Lizard" value="5" onChange={c1CommitmentInputHandler} placeholder="Player 1 move" /><label htmlFor="Lizard">Lizard</label>
         <br /><small><code>c1CommitmentInput: {c1CommitmentInput}</code></small>
       </div>
       <button onClick={callHasherContract}>Call Hasher contract (get c1Hash)</button>
