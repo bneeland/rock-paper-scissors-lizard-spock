@@ -15,6 +15,7 @@ const Home = () => {
   const [c1Hash, setC1Hash] = useState(null)
   const [stake, setStake] = useState(null)
   const [c2, setC2] = useState(0)
+  const [c1, setC1] = useState(0)
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -145,6 +146,10 @@ const Home = () => {
     }
   }
 
+  const c1InputHandler = event => {
+    setC1(event.target.value)
+  }
+
   return (
     <div>
       <Head>
@@ -196,15 +201,25 @@ const Home = () => {
       <p><small><code>Stake: {stake} ETH</code></small></p>
       <h3>Step 6: Pick a move, accept the stake, and commit to the contract</h3>
       <div>
-      <input type="radio" name="c2Input" id="c2rock" value="1" onChange={c2InputHandler} /><label htmlFor="c2rock">Rock</label>
-      <input type="radio" name="c2Input" id="c2paper" value="2" onChange={c2InputHandler} /><label htmlFor="c2paper">Paper</label>
-      <input type="radio" name="c2Input" id="c2scissors" value="3" onChange={c2InputHandler} /><label htmlFor="c2scissors">Scissors</label>
-      <input type="radio" name="c2Input" id="c2spock" value="4" onChange={c2InputHandler} /><label htmlFor="c2spock">Spock</label>
-      <input type="radio" name="c2Input" id="c2lizard" value="5" onChange={c2InputHandler} /><label htmlFor="c2lizard">Lizard</label>
-      <br /><small><code>c2: {c2}</code></small>
+        <input type="radio" name="c2Input" id="c2rock" value="1" onChange={c2InputHandler} /><label htmlFor="c2rock">Rock</label>
+        <input type="radio" name="c2Input" id="c2paper" value="2" onChange={c2InputHandler} /><label htmlFor="c2paper">Paper</label>
+        <input type="radio" name="c2Input" id="c2scissors" value="3" onChange={c2InputHandler} /><label htmlFor="c2scissors">Scissors</label>
+        <input type="radio" name="c2Input" id="c2spock" value="4" onChange={c2InputHandler} /><label htmlFor="c2spock">Spock</label>
+        <input type="radio" name="c2Input" id="c2lizard" value="5" onChange={c2InputHandler} /><label htmlFor="c2lizard">Lizard</label>
+        <br /><small><code>c2: {c2}</code></small>
       </div>
       <button onClick={playHandler}>play</button>
       <hr />
+      <h2>Player 1</h2>
+      <h3>Step 7: Confirm your move, and solve the round</h3>
+      <div>
+        <input type="radio" name="c1Input" id="c1rock" value="1" onChange={c1InputHandler} /><label htmlFor="c1rock">Rock</label>
+        <input type="radio" name="c1Input" id="c1paper" value="2" onChange={c1InputHandler} /><label htmlFor="c1paper">Paper</label>
+        <input type="radio" name="c1Input" id="c1scissors" value="3" onChange={c1InputHandler} /><label htmlFor="c1scissors">Scissors</label>
+        <input type="radio" name="c1Input" id="c1spock" value="4" onChange={c1InputHandler} /><label htmlFor="c1spock">Spock</label>
+        <input type="radio" name="c1Input" id="c1lizard" value="5" onChange={c1InputHandler} /><label htmlFor="c1lizard">Lizard</label>
+        <br /><small><code>c1: {c1}</code></small>
+      </div>
       <button>solve</button>
       <hr />
       <code>{error}</code>
