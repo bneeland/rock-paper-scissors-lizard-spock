@@ -84,8 +84,8 @@ const Home = () => {
   }
 
   const callHasherContract = () => {
-    var contractHasher = new web3.eth.Contract(abiHasher, contractAddressHasher)
     try {
+      var contractHasher = new web3.eth.Contract(abiHasher, contractAddressHasher)
       contractHasher.methods.hash(c1CommitmentInput, 123).call((error, result) => {
         setC1Hash(result)
       })
@@ -148,10 +148,14 @@ const Home = () => {
   }
 
   const getStakeHandler = () => {
-    var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
     try {
-      contractRPS.methods.stake().call((error, result) => {
-        setStake(web3.utils.fromWei(result, "ether"))
+      var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
+      contractRPS.methods.stake().call((error, response) => {
+        if (response !== undefined) {
+          setStake(web3.utils.fromWei(response, "ether"))
+        } else {
+          setError("Stake is undefined")
+        }
       })
     } catch(error) {
       setError(error.message)
@@ -163,8 +167,8 @@ const Home = () => {
   }
 
   const playHandler = async () => {
-    var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
     try {
+      var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
       await contractRPS.methods.play(c2).send({
         from: accountAddress,
         gas: '4700000',
@@ -180,8 +184,8 @@ const Home = () => {
   }
 
   const solveHandler = () => {
-    var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
     try {
+      var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
       contractRPS.methods.solve(c1, 123).send({
         from: accountAddress,
         gas: '4700000'
