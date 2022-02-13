@@ -173,6 +173,13 @@ const Home = () => {
         from: accountAddress,
         gas: '4700000',
         value: web3.utils.toWei(stake, "ether")
+      }, function (e, tx){
+        console.log(e, tx);
+        if (typeof tx !== 'undefined') {
+          console.log('Contract mined! transaction hash: ' + tx);
+        } else {
+          setError(e.message)
+        }
       })
     } catch(error) {
       setError(error.message)
