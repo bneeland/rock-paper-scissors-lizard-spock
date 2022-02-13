@@ -60,6 +60,7 @@ const Home = () => {
         if (typeof tx !== 'undefined') {
           console.log('Contract mined! transaction hash: ' + tx);
           setContractTransactionHashHasher(tx);
+          setError("")
         } else {
           setError(e.message)
         }
@@ -89,6 +90,7 @@ const Home = () => {
       contractHasher.methods.hash(c1CommitmentInput, 123).call((error, result) => {
         setC1Hash(result)
       })
+      setError("")
     } catch(error) {
       setError(error.message)
     }
@@ -153,6 +155,7 @@ const Home = () => {
       contractRPS.methods.stake().call((error, response) => {
         if (response !== undefined) {
           setStake(web3.utils.fromWei(response, "ether"))
+          setError("")
         } else {
           setError("Stake is undefined")
         }
@@ -177,6 +180,7 @@ const Home = () => {
         console.log(e, tx);
         if (typeof tx !== 'undefined') {
           console.log('Contract mined! transaction hash: ' + tx);
+          setError("")
         } else {
           setError(e.message)
         }
@@ -200,6 +204,7 @@ const Home = () => {
         console.log(e, tx);
         if (typeof tx !== 'undefined') {
           console.log('Contract mined! transaction hash: ' + tx);
+          setError("")
         } else {
           setError(e.message)
         }
