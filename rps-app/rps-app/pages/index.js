@@ -245,11 +245,15 @@ const Home = () => {
 
 export default Home
 
-// RPS contract address from Player 1, for Player 2 to play:
-// 0xbD14dB72014492DFDd2A0d16d250FE7Ab0779b5F
-// Stake = 0.002
-// c1 = 2 (Paper)
-
-// c2 = 1 (Rock)
-// ^ based on Play method transaction hatch:
-// 0x2a01b4c07c5726dbc32b403209c037e271d42ba2391e5e0bb7646f13d011fcec
+// Contract: 0xfeC69ACda8d3c6Cb9c1399F8c8829AF5aFafCa2c
+// c1: Spock
+// c2: Lizard
+// Stake: 0.03 ETH
+// j1 balance after staking: 0.4686 ETH
+// j2 balance after staking: 0.4625 ETH
+// Lizard <c2, j2> should win over Spock <c1, j1> (poisons Spock)
+// TRANSFER  0.06 Ether From 0xfec69acda8d3c6cb9c1399f8c8829af5afafca2c To 0xaffef56b5eae0f3107bd5c130591a
+// Translation: TRANSFER 0.06 Ether From <contract> to <j2>
+// j1 balance after playing: 0.4685 ETH
+// j2 balance after playing: 0.5225 ETH (= 0.4625 ETH + 0.06 ETH)
+// WORKED!
