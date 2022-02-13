@@ -14,6 +14,7 @@ const Home = () => {
   const [c1CommitmentInput, setC1CommitmentInput] = useState(0)
   const [c1Hash, setC1Hash] = useState(null)
   const [stake, setStake] = useState(null)
+  const [j2, setJ2] = useState(null)
   const [c2, setC2] = useState(0)
   const [c1, setC1] = useState(0)
   const [j1IsWinner, setj1IsWinner] = useState(null)
@@ -30,6 +31,7 @@ const Home = () => {
         // Get list of accounts connected through wallet
         const accounts = await web3.eth.getAccounts()
         setAccountAddress(accounts[0])
+        setError("")
       } catch(error) {
         setError(error.message)
       }
@@ -39,6 +41,65 @@ const Home = () => {
     }
   }
 
+  const deployHasher = () => {
+    /* Hasher compiled contract */
+    try {
+      var hasherContract = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}]);
+      var hasher = hasherContract.deploy({
+        data: '0x608060405234801561001057600080fd5b50610113806100206000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806367ef4c13146044575b600080fd5b348015604f57600080fd5b506079600480360381019080803560ff169060200190929190803590602001909291905050506097565b60405180826000191660001916815260200191505060405180910390f35b60008282604051808360ff1660ff167f01000000000000000000000000000000000000000000000000000000000000000281526001018281526020019250505060405180910390209050929150505600a165627a7a72305820e54c8e0119de19ea5efcc52800c2b4e2fcb121ec0fb01e4695a4a3471a9664000029',
+        arguments: [
+        ]
+      }).send({
+        from: accountAddress,
+        gas: '4700000'
+      }, function (e, tx){ // Remove/delete aync?
+        console.log(e, tx);
+        if (typeof tx !== 'undefined') {
+          console.log('Contract mined! contract: ' + tx);
+          setContractTransactionHashHasher(tx);
+          setError("")
+        } else {
+          setError(e.message)
+        }
+      })
+    } catch(error) {
+      setError(error.message)
+    }
+
+  }
+
+  const c1CommitmentInputHandler = event => {
+    setC1CommitmentInput(event.target.value)
+  }
+
+  const getHasherContractAddress = async () => {
+    try {
+      const transactionReceipt = await web3.eth.getTransactionReceipt(contractTransactionHashHasher)
+      setContractAddressHasher(transactionReceipt.contractAddress)
+      setError("")
+    } catch(error) {
+      setError(error.message)
+    }
+  }
+
+  const callHasherContract = () => {
+    var contractHasher = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}], contractAddressHasher)
+    try {
+      contractHasher.methods.hash(c1CommitmentInput, 123).call((error, result) => {
+        setC1Hash(result)
+      })
+    } catch(error) {
+      setError(error.message)
+    }
+  }
+
+  const stakeInputHandler = event => {
+    setStake(event.target.value)
+  }
+
+  const j2InputHandler = event => {
+    setJ2(event.target.value)
+  }
 
   const deployRPS = () => {
     /* RPS compiled contract */
@@ -66,53 +127,9 @@ const Home = () => {
     })
   }
 
-  const deployHasher = () => {
-    /* Hasher compiled contract */
-    var hasherContract = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}]);
-    var hasher = hasherContract.deploy({
-      data: '0x608060405234801561001057600080fd5b50610113806100206000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806367ef4c13146044575b600080fd5b348015604f57600080fd5b506079600480360381019080803560ff169060200190929190803590602001909291905050506097565b60405180826000191660001916815260200191505060405180910390f35b60008282604051808360ff1660ff167f01000000000000000000000000000000000000000000000000000000000000000281526001018281526020019250505060405180910390209050929150505600a165627a7a72305820e54c8e0119de19ea5efcc52800c2b4e2fcb121ec0fb01e4695a4a3471a9664000029',
-      arguments: [
-      ]
-    }).send({
-      // from: '0x26012CeC5C940e68C1Aea84ba0018c8217F6D943',
-      from: accountAddress,
-      gas: '4700000'
-    }, async function (e, contract){ // Remove/delete aync?
-      console.log(e, contract);
-      setContractTransactionHashHasher(contract);
-      if (typeof contract.address !== 'undefined') {
-        console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
-      }
-    })
-  }
-
-  const c1CommitmentInputHandler = event => {
-    setC1CommitmentInput(event.target.value)
-  }
-
-  const getHasherContractAddress = async () => {
-    const transactionReceipt = await web3.eth.getTransactionReceipt(contractTransactionHashHasher)
-    setContractAddressHasher(transactionReceipt.contractAddress)
-  }
-
   const getRPSContractAddress = async () => {
     const transactionReceipt = await web3.eth.getTransactionReceipt(contractTransactionHashRPS)
     setContractAddressRPS(transactionReceipt.contractAddress)
-  }
-
-  const callHasherContract = () => {
-    var contractHasher = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}], contractAddressHasher)
-    try {
-      contractHasher.methods.hash(c1CommitmentInput, 123).call((error, result) => {
-        setC1Hash(result)
-      })
-    } catch(error) {
-      setError(error.message)
-    }
-  }
-
-  const stakeInputHandler = event => {
-    setStake(event.target.value)
   }
 
   const contractAddressRPSInputHandler = event => {
@@ -196,6 +213,10 @@ const Home = () => {
       <p><small><code>c1Hash: {c1Hash}</code></small></p>
       <h3>Step 3: Deploy RPS contract</h3>
       <div>
+        <input onChange={j2InputHandler} placeholder="Player 2 account address" />
+        <br /><small><code>j2: {j2}</code></small>
+      </div>
+      <div>
         <input onChange={stakeInputHandler} placeholder="Stake (in ETH)" />
         <br /><small><code>Stake: {stake} ETH</code></small>
       </div>
@@ -244,16 +265,3 @@ const Home = () => {
 }
 
 export default Home
-
-// Contract: 0xfeC69ACda8d3c6Cb9c1399F8c8829AF5aFafCa2c
-// c1: Spock
-// c2: Lizard
-// Stake: 0.03 ETH
-// j1 balance after staking: 0.4686 ETH
-// j2 balance after staking: 0.4625 ETH
-// Lizard <c2, j2> should win over Spock <c1, j1> (poisons Spock)
-// TRANSFER  0.06 Ether From 0xfec69acda8d3c6cb9c1399f8c8829af5afafca2c To 0xaffef56b5eae0f3107bd5c130591a
-// Translation: TRANSFER 0.06 Ether From <contract> to <j2>
-// j1 balance after playing: 0.4685 ETH
-// j2 balance after playing: 0.5225 ETH (= 0.4625 ETH + 0.06 ETH)
-// WORKED!
