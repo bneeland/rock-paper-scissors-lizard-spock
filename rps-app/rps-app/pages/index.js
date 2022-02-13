@@ -16,6 +16,7 @@ const Home = () => {
   const [stake, setStake] = useState(null)
   const [c2, setC2] = useState(0)
   const [c1, setC1] = useState(0)
+  const [j1IsWinner, setj1IsWinner] = useState(null)
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -150,6 +151,21 @@ const Home = () => {
     setC1(event.target.value)
   }
 
+  const solveHandler = () => {
+    var contractRPS = new web3.eth.Contract([{"constant":true,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_c2","type":"uint8"}],"name":"win","outputs":[{"name":"w","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j2Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"stake","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c2","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c1Hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c2","type":"uint8"}],"name":"play","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"j2","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastAction","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"solve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"j1","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j1Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"TIMEOUT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_c1Hash","type":"bytes32"},{"name":"_j2","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}], contractAddressRPS)
+    try {
+      contractRPS.methods.solve(c1, 123).send({
+        from: accountAddress,
+        gas: '4700000'
+      })
+      console.log("Clicked solve button")
+      // setj1IsWinner(response)
+    } catch(error) {
+      setError(error.message)
+      console.log("Solve button error")
+    }
+  }
+
   return (
     <div>
       <Head>
@@ -220,17 +236,20 @@ const Home = () => {
         <input type="radio" name="c1Input" id="c1lizard" value="5" onChange={c1InputHandler} /><label htmlFor="c1lizard">Lizard</label>
         <br /><small><code>c1: {c1}</code></small>
       </div>
-      <button>solve</button>
+      <button onClick={solveHandler}>solve</button>
       <hr />
       <code>{error}</code>
     </div>
   )
 }
 
+export default Home
+
 // RPS contract address from Player 1, for Player 2 to play:
 // 0xbD14dB72014492DFDd2A0d16d250FE7Ab0779b5F
 // Stake = 0.002
 // c1 = 2 (Paper)
 
-
-export default Home
+// c2 = 1 (Rock)
+// ^ based on Play method transaction hatch:
+// 0x2a01b4c07c5726dbc32b403209c037e271d42ba2391e5e0bb7646f13d011fcec
