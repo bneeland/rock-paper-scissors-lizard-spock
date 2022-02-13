@@ -196,12 +196,17 @@ const Home = () => {
       contractRPS.methods.solve(c1, 123).send({
         from: accountAddress,
         gas: '4700000'
+      }, function (e, tx){
+        console.log(e, tx);
+        if (typeof tx !== 'undefined') {
+          console.log('Contract mined! transaction hash: ' + tx);
+        } else {
+          setError(e.message)
+        }
       })
-      console.log("Clicked solve button")
       // setj1IsWinner(response)
     } catch(error) {
       setError(error.message)
-      console.log("Solve button error")
     }
   }
 
@@ -224,11 +229,11 @@ const Home = () => {
       <p><small><code>Hasher contract address: {contractAddressHasher}</code></small></p>
       <h3>Step 2: Enter move (to be committed) and get c1Hash</h3>
       <div>
-        <input type="radio" name="c1CommitmentInput" id="c1rock" value="1" onChange={c1CommitmentInputHandler} /><label htmlFor="c1rock">Rock</label>
-        <input type="radio" name="c1CommitmentInput" id="c1paper" value="2" onChange={c1CommitmentInputHandler} /><label htmlFor="c1paper">Paper</label>
-        <input type="radio" name="c1CommitmentInput" id="c1scissors" value="3" onChange={c1CommitmentInputHandler} /><label htmlFor="c1scissors">Scissors</label>
-        <input type="radio" name="c1CommitmentInput" id="c1spock" value="4" onChange={c1CommitmentInputHandler} /><label htmlFor="c1spock">Spock</label>
-        <input type="radio" name="c1CommitmentInput" id="c1lizard" value="5" onChange={c1CommitmentInputHandler} /><label htmlFor="c1lizard">Lizard</label>
+        <input type="radio" name="c1CommitmentInput" id="c1rock-input" value="1" onChange={c1CommitmentInputHandler} /><label htmlFor="c1rock-input">Rock</label>
+        <input type="radio" name="c1CommitmentInput" id="c1paper-input" value="2" onChange={c1CommitmentInputHandler} /><label htmlFor="c1paper-input">Paper</label>
+        <input type="radio" name="c1CommitmentInput" id="c1scissors-input" value="3" onChange={c1CommitmentInputHandler} /><label htmlFor="c1scissors-input">Scissors</label>
+        <input type="radio" name="c1CommitmentInput" id="c1spock-input" value="4" onChange={c1CommitmentInputHandler} /><label htmlFor="c1spock-input">Spock</label>
+        <input type="radio" name="c1CommitmentInput" id="c1lizard-input" value="5" onChange={c1CommitmentInputHandler} /><label htmlFor="c1lizard-input">Lizard</label>
         <br /><small><code>c1CommitmentInput: {c1CommitmentInput}</code></small>
       </div>
       <button onClick={callHasherContract}>Call Hasher contract (get c1Hash)</button>
@@ -287,3 +292,10 @@ const Home = () => {
 }
 
 export default Home
+
+// Contract: 0x5A62279C3EC4fb1bdED7726daaBeCEdFbCF17d91
+// Stake: 0.004 ETH
+// j1: 0xAFfef56b5EaE0f3107BD5c130591a8496c39a928
+// c1: Lizard
+// j2: 0x26012CeC5C940e68C1Aea84ba0018c8217F6D943
+// c2: Lizard
