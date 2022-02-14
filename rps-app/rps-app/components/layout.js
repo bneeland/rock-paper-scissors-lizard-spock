@@ -1,8 +1,9 @@
 export default function Layout({ children }) {
   return (
-    <div>
-      <p className="text-2xl font-bold underline">Header</p>
-      <div>{children}</div>
+    <div className="bg-slate-50 min-h-screen">
+      <div className="container mx-auto p-6">
+        <div>{children}</div>
+      </div>
     </div>
   )
 }

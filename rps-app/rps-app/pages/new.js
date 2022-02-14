@@ -181,16 +181,30 @@ const New = () => {
       <Head>
         <title>New round - Rock Paper Scissors Spock Lizard</title>
       </Head>
+      <div className="mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
+          <div className="col-span-1 my-auto">
+            <Link href="/">
+              <a className="text-slate-600">&larr; Home</a>
+            </Link>
+          </div>
+          <div className="col-span-4 my-auto">
+            <h1 className="text-2xl font-bold text-center text-slate-700 my-4">Rock Paper Scissors Spock Lizard</h1>
+          </div>
+          <div className="col-span-1 my-auto text-center md:text-right">
+            <button onClick={connectWalletHandler} className="py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">
+              Connect&nbsp;wallet
+            </button>
+          </div>
+        </div>
+        <div className="h-14 sm:h-7 text-center lg:text-right text-slate-600">
+          {accountAddress && <small><code>Connected to: {accountAddress}</code></small>}
+        </div>
+      </div>
+      
       <hr />
       Errors: {error}
       <hr />
-      <button onClick={connectWalletHandler}>Connect wallet</button>
-      <p><small><code>Account: {accountAddress}</code></small></p>
-      <hr />
-      <h1 className="text-2xl font-bold underline">Rock Paper Scissors Spock Lizard</h1>
-      <Link href="/">
-        <a>Home</a>
-      </Link>
 
       <h3>Step 1: Enter move (to be committed) and get c1Hash</h3>
       <div>
