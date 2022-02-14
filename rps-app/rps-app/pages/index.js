@@ -9,7 +9,6 @@ const Home = () => {
   const [accountAddress, setAccountAddress] = useState(null)
   const [contractTransactionHashRPS, setContractTransactionHashRPS] = useState(null)
   const [contractTransactionHashHasher, setContractTransactionHashHasher] = useState(null)
-  const [contractAddressHasher, setContractAddressHasher] = useState(null)
   const [contractAddressRPS, setContractAddressRPS] = useState(null)
   const [c1CommitmentInput, setC1CommitmentInput] = useState(0)
   const [c1Hash, setC1Hash] = useState(null)
@@ -17,10 +16,12 @@ const Home = () => {
   const [j2, setJ2] = useState(null)
   const [c2, setC2] = useState(0)
   const [c1, setC1] = useState(0)
-  const [j1IsWinner, setj1IsWinner] = useState(null)
+  const [roundIsComplete, setRoundIsComplete] = useState(false)
 
   const abiHasher = [{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}]
   const abiRPS = [{"constant":true,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_c2","type":"uint8"}],"name":"win","outputs":[{"name":"w","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j2Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"stake","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c2","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"c1Hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c2","type":"uint8"}],"name":"play","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"j2","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastAction","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_c1","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"solve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"j1","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"j1Timeout","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"TIMEOUT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_c1Hash","type":"bytes32"},{"name":"_j2","type":"address"}],"payable":true,"stateMutability":"payable","type":"constructor"}]
+
+  const contractAddressHasher = "0x024EeF22Cb87B7a18077DaDEA64CC7A05D04Fd27"
 
   const connectWalletHandler = async () => {
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
@@ -44,51 +45,15 @@ const Home = () => {
     }
   }
 
-  const deployHasher = () => {
-    /* Hasher compiled contract */
-    try {
-      var hasherContract = new web3.eth.Contract(abiHasher);
-      var hasher = hasherContract.deploy({
-        data: '0x608060405234801561001057600080fd5b50610113806100206000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806367ef4c13146044575b600080fd5b348015604f57600080fd5b506079600480360381019080803560ff169060200190929190803590602001909291905050506097565b60405180826000191660001916815260200191505060405180910390f35b60008282604051808360ff1660ff167f01000000000000000000000000000000000000000000000000000000000000000281526001018281526020019250505060405180910390209050929150505600a165627a7a72305820e54c8e0119de19ea5efcc52800c2b4e2fcb121ec0fb01e4695a4a3471a9664000029',
-        arguments: [
-        ]
-      }).send({
-        from: accountAddress,
-        gas: '4700000'
-      }, function (e, tx){
-        console.log(e, tx);
-        if (typeof tx !== 'undefined') {
-          console.log('Contract mined! transaction hash: ' + tx);
-          setContractTransactionHashHasher(tx);
-          setError("")
-        } else {
-          setError(e.message)
-        }
-      })
-    } catch(error) {
-      setError(error.message)
-    }
-  }
-
   const c1CommitmentInputHandler = event => {
     setC1CommitmentInput(event.target.value)
   }
 
-  const getHasherContractAddress = async () => {
-    try {
-      const transactionReceipt = await web3.eth.getTransactionReceipt(contractTransactionHashHasher)
-      setContractAddressHasher(transactionReceipt.contractAddress)
-      setError("")
-    } catch(error) {
-      setError(error.message)
-    }
-  }
-
-  const callHasherContract = () => {
+  const getC1HashHandler = () => {
     try {
       var contractHasher = new web3.eth.Contract(abiHasher, contractAddressHasher)
-      contractHasher.methods.hash(c1CommitmentInput, 123).call((error, result) => {
-        setC1Hash(result)
+      contractHasher.methods.hash(c1CommitmentInput, 123).call((error, response) => {
+        setC1Hash(response)
       })
       setError("")
     } catch(error) {
@@ -194,10 +159,10 @@ const Home = () => {
     setC1(event.target.value)
   }
 
-  const solveHandler = () => {
+  const solveHandler = async () => {
     try {
       var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
-      contractRPS.methods.solve(c1, 123).send({
+      await contractRPS.methods.solve(c1, 123).send({
         from: accountAddress,
         gas: '4700000'
       }, function (e, tx){
@@ -209,7 +174,20 @@ const Home = () => {
           setError(e.message)
         }
       })
-      // setj1IsWinner(response)
+    } catch(error) {
+      setError(error.message)
+    }
+  }
+
+  const checkRoundCompleteHandler = async () => {
+    // Get contract balance to check that the round is solved
+    try {
+      const contractBalanceRPS = await web3.eth.getBalance(contractAddressRPS)
+      setError("")
+      console.log(contractBalanceRPS)
+      if (contractBalanceRPS == 0) {
+        setRoundIsComplete(true)
+      }
     } catch(error) {
       setError(error.message)
     }
@@ -222,28 +200,23 @@ const Home = () => {
         <meta name="description" content="Rock Paper Scissors Spock Lizard app" />
       </Head>
       <h1 className={styles.title}>Rock Paper Scissors Spock Lizard</h1>
-      <p>An enhanced version of Rock Paper Scissors, running on the blockchain</p>
+      <p>An extended version of Rock Paper Scissors, running on the blockchain</p>
       <button onClick={connectWalletHandler}>Connect wallet</button>
       <p><small><code>Account: {accountAddress}</code></small></p>
       <hr />
       <h2>Player 1</h2>
-      <h3>Step 1: Deploy Hasher contract</h3>
-      <button onClick={deployHasher}>Deploy Hasher</button>
-      <p><small><code>Hasher contract transaction hash: {contractTransactionHashHasher}</code></small></p>
-      <button onClick={getHasherContractAddress}>Get Hasher contract address</button>
-      <p><small><code>Hasher contract address: {contractAddressHasher}</code></small></p>
-      <h3>Step 2: Enter move (to be committed) and get c1Hash</h3>
+      <h3>Step 1: Enter move (to be committed) and get c1Hash</h3>
       <div>
-        <input type="radio" name="c1CommitmentInput" id="c1rock-input" value="1" onChange={c1CommitmentInputHandler} /><label htmlFor="c1rock-input">Rock</label>
-        <input type="radio" name="c1CommitmentInput" id="c1paper-input" value="2" onChange={c1CommitmentInputHandler} /><label htmlFor="c1paper-input">Paper</label>
-        <input type="radio" name="c1CommitmentInput" id="c1scissors-input" value="3" onChange={c1CommitmentInputHandler} /><label htmlFor="c1scissors-input">Scissors</label>
-        <input type="radio" name="c1CommitmentInput" id="c1spock-input" value="4" onChange={c1CommitmentInputHandler} /><label htmlFor="c1spock-input">Spock</label>
-        <input type="radio" name="c1CommitmentInput" id="c1lizard-input" value="5" onChange={c1CommitmentInputHandler} /><label htmlFor="c1lizard-input">Lizard</label>
+        <input type="radio" name="c1CommitmentInput" id="c1RockCommit" value="1" onChange={c1CommitmentInputHandler} /><label htmlFor="c1RockCommit">Rock</label>
+        <input type="radio" name="c1CommitmentInput" id="c1PaperCommit" value="2" onChange={c1CommitmentInputHandler} /><label htmlFor="c1PaperCommit">Paper</label>
+        <input type="radio" name="c1CommitmentInput" id="c1ScissorsCommit" value="3" onChange={c1CommitmentInputHandler} /><label htmlFor="c1ScissorsCommit">Scissors</label>
+        <input type="radio" name="c1CommitmentInput" id="c1SpockCommit" value="4" onChange={c1CommitmentInputHandler} /><label htmlFor="c1SpockCommit">Spock</label>
+        <input type="radio" name="c1CommitmentInput" id="c1LizardCommit" value="5" onChange={c1CommitmentInputHandler} /><label htmlFor="c1LizardCommit">Lizard</label>
         <br /><small><code>c1CommitmentInput: {c1CommitmentInput}</code></small>
       </div>
-      <button onClick={callHasherContract}>Call Hasher contract (get c1Hash)</button>
+      <button onClick={getC1HashHandler}>Get c1Hash from c1</button>
       <p><small><code>c1Hash: {c1Hash}</code></small></p>
-      <h3>Step 3: Deploy RPS contract</h3>
+      <h3>Step 2: Deploy RPS contract</h3>
       <div>
         <input onChange={j2InputHandler} placeholder="Opponent's account address" />
         <br /><small><code>j2: {j2}</code></small>
@@ -258,17 +231,17 @@ const Home = () => {
       <p><small><code>RPS contract address: {contractAddressRPS}</code></small></p>
       <hr />
       <h2>Player 2</h2>
-      <h3>Step 4: Set RPS contract address</h3>
+      <h3>Step 3: Set RPS contract address</h3>
       <p>Player 1 should have deployed an RPS contract to start a game for you to join, and should have staked ETH into that RPS contract as a bet on the game.</p>
       <p>You need to get the address of that RPS contract so you can join as player 2 for that game.</p>
       <div>
         <input onChange={contractAddressRPSInputHandler} placeholder="RPS contract address" />
         <br /><small><code>RPS contract address: {contractAddressRPS}</code></small>
       </div>
-      <h3>Step 5: Get stake</h3>
+      <h3>Step 4: Get stake</h3>
       <button onClick={getStakeHandler}>Get stake</button>
       <p><small><code>Stake: {stake} ETH</code></small></p>
-      <h3>Step 6: Pick a move, accept the stake, and commit to the contract</h3>
+      <h3>Step 5: Pick a move, accept the stake, and commit to the contract</h3>
       <div>
         <input type="radio" name="c2Input" id="c2rock" value="1" onChange={c2InputHandler} /><label htmlFor="c2rock">Rock</label>
         <input type="radio" name="c2Input" id="c2paper" value="2" onChange={c2InputHandler} /><label htmlFor="c2paper">Paper</label>
@@ -280,16 +253,21 @@ const Home = () => {
       <button onClick={playHandler}>play</button>
       <hr />
       <h2>Player 1</h2>
-      <h3>Step 7: Confirm your move, and solve the round</h3>
+      <h3>Step 6: Confirm your move, and solve the round</h3>
       <div>
-        <input type="radio" name="c1Input" id="c1rock" value="1" onChange={c1InputHandler} /><label htmlFor="c1rock">Rock</label>
-        <input type="radio" name="c1Input" id="c1paper" value="2" onChange={c1InputHandler} /><label htmlFor="c1paper">Paper</label>
-        <input type="radio" name="c1Input" id="c1scissors" value="3" onChange={c1InputHandler} /><label htmlFor="c1scissors">Scissors</label>
-        <input type="radio" name="c1Input" id="c1spock" value="4" onChange={c1InputHandler} /><label htmlFor="c1spock">Spock</label>
-        <input type="radio" name="c1Input" id="c1lizard" value="5" onChange={c1InputHandler} /><label htmlFor="c1lizard">Lizard</label>
+        <input type="radio" name="c1Input" id="c1RockConfirm" value="1" onChange={c1InputHandler} /><label htmlFor="c1RockConfirm">Rock</label>
+        <input type="radio" name="c1Input" id="c1PaperConfirm" value="2" onChange={c1InputHandler} /><label htmlFor="c1PaperConfirm">Paper</label>
+        <input type="radio" name="c1Input" id="c1ScissorsConfirm" value="3" onChange={c1InputHandler} /><label htmlFor="c1ScissorsConfirm">Scissors</label>
+        <input type="radio" name="c1Input" id="c1SpockConfirm" value="4" onChange={c1InputHandler} /><label htmlFor="c1SpockConfirm">Spock</label>
+        <input type="radio" name="c1Input" id="c1LizardConfirm" value="5" onChange={c1InputHandler} /><label htmlFor="c1LizardConfirm">Lizard</label>
         <br /><small><code>c1: {c1}</code></small>
       </div>
       <button onClick={solveHandler}>solve</button>
+      <hr />
+      <h2>Players 1 and 2</h2>
+      <h3>Step 7: Check if round is complete</h3>
+      <button onClick={checkRoundCompleteHandler}>Check if round is complete</button>
+      {roundIsComplete && <h4>Round is complete.</h4>}
       <hr />
       <code>{error}</code>
     </div>
@@ -297,10 +275,3 @@ const Home = () => {
 }
 
 export default Home
-
-// Contract: 0x5A62279C3EC4fb1bdED7726daaBeCEdFbCF17d91
-// Stake: 0.004 ETH
-// j1: 0xAFfef56b5EaE0f3107BD5c130591a8496c39a928
-// c1: Lizard
-// j2: 0x26012CeC5C940e68C1Aea84ba0018c8217F6D943
-// c2: Lizard
