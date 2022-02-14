@@ -52,8 +52,8 @@ const Home = () => {
   const getC1HashHandler = () => {
     try {
       var contractHasher = new web3.eth.Contract(abiHasher, contractAddressHasher)
-      contractHasher.methods.hash(c1CommitmentInput, 123).call((error, response) => {
-        setC1Hash(response)
+      contractHasher.methods.hash(c1CommitmentInput, 123).call((error, result) => {
+        setC1Hash(result)
       })
       setError("")
     } catch(error) {
@@ -117,9 +117,9 @@ const Home = () => {
   const getStakeHandler = () => {
     try {
       var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
-      contractRPS.methods.stake().call((error, response) => {
-        if (response !== undefined) {
-          setStake(web3.utils.fromWei(response, "ether"))
+      contractRPS.methods.stake().call((error, result) => {
+        if (result !== undefined) {
+          setStake(web3.utils.fromWei(result, "ether"))
           setError("")
         } else {
           setError("Stake is undefined")
@@ -188,6 +188,46 @@ const Home = () => {
       if (contractBalanceRPS == 0) {
         setRoundIsComplete(true)
       }
+    } catch(error) {
+      setError(error.message)
+    }
+  }
+
+  const timeoutPlayer1Handler = async () => {
+    try {
+      var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
+      await contractRPS.methods.j1Timeout().send({
+        from: accountAddress,
+        gas: '4700000'
+      }, function (e, tx){
+        console.log(e, tx);
+        if (typeof tx !== 'undefined') {
+          console.log('Contract mined! transaction hash: ' + tx);
+          setError("")
+        } else {
+          setError(e.message)
+        }
+      })
+    } catch(error) {
+      setError(error.message)
+    }
+  }
+
+  const timeoutPlayer2Handler = async () => {
+    try {
+      var contractRPS = new web3.eth.Contract(abiRPS, contractAddressRPS)
+      await contractRPS.methods.j2Timeout().send({
+        from: accountAddress,
+        gas: '4700000'
+      }, function (e, tx){
+        console.log(e, tx);
+        if (typeof tx !== 'undefined') {
+          console.log('Contract mined! transaction hash: ' + tx);
+          setError("")
+        } else {
+          setError(e.message)
+        }
+      })
     } catch(error) {
       setError(error.message)
     }
@@ -268,6 +308,19 @@ const Home = () => {
       <h3>Step 7: Check if round is complete</h3>
       <button onClick={checkRoundCompleteHandler}>Check if round is complete</button>
       {roundIsComplete && <h4>Round is complete.</h4>}
+      <hr />
+      <h2>Player 1 and 2</h2>
+      <h3>Timeout</h3>
+      <div>
+        <h4>Player 1</h4>
+        <p>If player 2 hasn't played for 5 minutes after you've challenged him to a round, click the button below to get your stake back.</p>
+        <button onClick={timeoutPlayer2Handler}>Player 2 hasn't responded—get stake back</button>
+      </div>
+      <div>
+        <h4>Player 2</h4>
+        <p>If player 1 hasn't played for 5 minutes after you've accepted the game and made your move, click the button below to claim victory and collect the full staked amount.</p>
+        <button onClick={timeoutPlayer1Handler}>Player 1 hasn't responded—claim victory</button>
+      </div>
       <hr />
       <code>{error}</code>
     </div>
