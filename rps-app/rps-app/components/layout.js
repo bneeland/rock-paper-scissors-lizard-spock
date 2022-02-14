@@ -1,7 +1,7 @@
 export default function Layout({ children }) {
   return (
     <div>
-      <div>Header</div>
+      <p className="text-2xl font-bold underline">Header</p>
       <div>{children}</div>
     </div>
   )

@@ -1,6 +1,6 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import {useState} from 'react'
+import Head from 'next/head'
+import styles from '../styles/RPS.module.css'
 import Web3 from 'web3'
 import Layout from '../components/layout'
 import Link from 'next/link'
@@ -137,7 +137,7 @@ const Join = () => {
       <button onClick={connectWalletHandler}>Connect wallet</button>
       <p><small><code>Account: {accountAddress}</code></small></p>
       <hr />
-      <h1 className={styles.title}>Join existing round</h1>
+      <h1 className="text-2xl font-bold underline">Rock Paper Scissors Spock Lizard</h1>
       <Link href="/">
         <a>Home</a>
       </Link>
