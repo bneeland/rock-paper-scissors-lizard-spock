@@ -183,15 +183,15 @@ const New = () => {
       </Head>
       <div className="mb-4">
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
-          <div className="col-span-1 my-auto">
+          <div className="lg:col-span-1 my-auto">
             <Link href="/">
               <a className="text-slate-600">&larr; Home</a>
             </Link>
           </div>
-          <div className="col-span-4 my-auto">
-            <h1 className="text-2xl font-bold text-center text-slate-700 my-4">Rock Paper Scissors Spock Lizard</h1>
+          <div className="lg:col-span-4 my-auto">
+            <h1 className="text-xl font-bold text-center text-slate-500 my-4">Rock Paper Scissors Spock Lizard</h1>
           </div>
-          <div className="col-span-1 my-auto text-center md:text-right">
+          <div className="lg:col-span-1 my-auto text-center md:text-right">
             <button onClick={connectWalletHandler} className="py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">
               Connect&nbsp;wallet
             </button>
@@ -201,22 +201,69 @@ const New = () => {
           {accountAddress && <small><code>Connected to: {accountAddress}</code></small>}
         </div>
       </div>
-      
-      <hr />
-      Errors: {error}
-      <hr />
 
-      <h3>Step 1: Enter move (to be committed) and get c1Hash</h3>
-      <div>
-        <input type="radio" name="c1CommitmentInput" id="c1RockCommit" value="1" onChange={c1CommitmentInputHandler} /><label htmlFor="c1RockCommit">Rock</label>
-        <input type="radio" name="c1CommitmentInput" id="c1PaperCommit" value="2" onChange={c1CommitmentInputHandler} /><label htmlFor="c1PaperCommit">Paper</label>
-        <input type="radio" name="c1CommitmentInput" id="c1ScissorsCommit" value="3" onChange={c1CommitmentInputHandler} /><label htmlFor="c1ScissorsCommit">Scissors</label>
-        <input type="radio" name="c1CommitmentInput" id="c1SpockCommit" value="4" onChange={c1CommitmentInputHandler} /><label htmlFor="c1SpockCommit">Spock</label>
-        <input type="radio" name="c1CommitmentInput" id="c1LizardCommit" value="5" onChange={c1CommitmentInputHandler} /><label htmlFor="c1LizardCommit">Lizard</label>
-        <br /><small><code>c1CommitmentInput: {c1CommitmentInput}</code></small>
-      </div>
-      <button onClick={getC1HashHandler}>Get c1Hash from c1</button>
-      <p><small><code>c1Hash: {c1Hash}</code></small></p>
+      {error &&
+        <div className="fixed bottom-10 left-0 right-0 border z-50">
+          <div className="text-center">
+            <span class="bg-amber-100 drop-shadow-lg p-4 rounded-xl">
+              Error: {error} <button onClick={() => {setError("")}}><svg class="fill-current h-4 w-4" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg></button>
+            </span>
+          </div>
+        </div>
+      }
+
+      {accountAddress &&
+        <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
+          Choose your move
+        </h3>
+      }
+      {accountAddress &&
+        <div className="lg:w-1/2 lg:mx-auto">
+          <div class="relative mb-3">
+            <input type="radio" name="c1CommitmentInput" id="c1RockCommit" value="1" onChange={c1CommitmentInputHandler} class="hidden peer" />
+            <label for="c1RockCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Rock</h6>
+              </div>
+            </label>
+          </div>
+          <div class="relative mb-3">
+            <input type="radio" name="c1CommitmentInput" id="c1PaperCommit" value="2" onChange={c1CommitmentInputHandler} class="hidden peer" />
+            <label for="c1PaperCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Paper</h6>
+              </div>
+            </label>
+          </div>
+          <div class="relative mb-3">
+            <input type="radio" name="c1CommitmentInput" id="c1ScissorsCommit" value="3" onChange={c1CommitmentInputHandler} class="hidden peer" />
+            <label for="c1ScissorsCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Scissors</h6>
+              </div>
+            </label>
+          </div>
+          <div class="relative mb-3">
+            <input type="radio" name="c1CommitmentInput" id="c1SpockCommit" value="4" onChange={c1CommitmentInputHandler} class="hidden peer" />
+            <label for="c1SpockCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Spock</h6>
+              </div>
+            </label>
+          </div>
+          <div class="relative mb-3">
+            <input type="radio" name="c1CommitmentInput" id="c1LizardCommit" value="5" onChange={c1CommitmentInputHandler} class="hidden peer" />
+            <label for="c1LizardCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Lizard</h6>
+              </div>
+            </label>
+          </div>
+        </div>
+      }
+      {c1CommitmentInput !== 0 && <div className="mt-8 lg:w-1/2 lg:mx-auto"><button onClick={getC1HashHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Submit</button></div>}
+        <p><small><code>c1Hash: {c1Hash}</code></small></p>
+
 
       <h3>Step 2: Deploy RPS contract</h3>
       <div>
