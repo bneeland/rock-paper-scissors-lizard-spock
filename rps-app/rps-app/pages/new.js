@@ -23,7 +23,7 @@ const New = () => {
 
   const [c1, setC1] = useState(0)
 
-  const [roundIsComplete, setRoundIsComplete] = useState(false)
+  const [roundIsComplete, setRoundIsComplete] = useState()
 
   const contractAddressHasher = "0x024EeF22Cb87B7a18077DaDEA64CC7A05D04Fd27"
   const abiHasher = [{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}]
@@ -301,7 +301,8 @@ const New = () => {
       }
       {contractTransactionHashRPS &&
         <div className="p-10 border bg-white rounded-xl my-6">
-          <p className="text-slate-900 text-lg font-bold text-center mb-6">Get the contract address and send it to another player to join the round:</p>
+          <p className="text-slate-500 text-center">After the contract transaction is executed:</p>
+          <p className="text-slate-900 text-lg font-bold text-center mb-6">Get the contract address and send it to another player to join the round</p>
 
             <div className="lg:w-1/2 lg:mx-auto mb-6">
               <button onClick={getRPSContractAddressHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Get contract address</button>
@@ -321,7 +322,7 @@ const New = () => {
             Wait
           </h2>
           <p className="text-slate-900 text-lg mb-6">
-            Wait for your opponent to play his/her move.
+            Wait at least 5 minutes for your opponent to play his/her move, then proceed.
           </p>
           <p className="text-slate-900 text-lg mb-6">
             If the other player has not played after 5 minutes, you can use the timeout function, below, to get your stake back.
@@ -330,10 +331,76 @@ const New = () => {
         </div>
       }
 
-      <hr />
-      <p>Wait for player 2 to play his move.</p>
-      <p>If player 2 hasn't played after 5 minutes, you can use the timeout function, below, to get your stake back.</p>
-      <hr />
+      {contractAddressRPS &&
+        <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
+          Confirm move
+        </h2>
+      }
+      {contractAddressRPS &&
+        <div className="lg:w-1/2 lg:mx-auto">
+          <div class="relative mb-3">
+            <input type="radio" name="c1Input" id="c1RockConfirm" value="1" onChange={c1InputHandler} class="hidden peer" />
+            <label for="c1RockConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Rock</h6>
+              </div>
+            </label>
+          </div>
+          <div class="relative mb-3">
+            <input type="radio" name="c1Input" id="c1PaperConfirm" value="2" onChange={c1InputHandler} class="hidden peer" />
+            <label for="c1PaperConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Paper</h6>
+              </div>
+            </label>
+          </div>
+          <div class="relative mb-3">
+            <input type="radio" name="c1Input" id="c1ScissorsConfirm" value="3" onChange={c1InputHandler} class="hidden peer" />
+            <label for="c1ScissorsConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Scissors</h6>
+              </div>
+            </label>
+          </div>
+          <div class="relative mb-3">
+            <input type="radio" name="c1Input" id="c1SpockConfirm" value="4" onChange={c1InputHandler} class="hidden peer" />
+            <label for="c1SpockConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Spock</h6>
+              </div>
+            </label>
+          </div>
+          <div class="relative mb-3">
+            <input type="radio" name="c1Input" id="c1LizardConfirm" value="5" onChange={c1InputHandler} class="hidden peer" />
+            <label for="c1LizardConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+              <div>
+                <h6 class="text-xl font-bold">Lizard</h6>
+              </div>
+            </label>
+          </div>
+        </div>
+      }
+      {contractAddressRPS &&
+        <div className="mt-8 lg:w-1/2 lg:mx-auto">
+          <button onClick={solveHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Submit</button>
+        </div>
+      }
+
+      {contractAddressRPS &&
+        <div>
+          <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
+            Check if round is complete
+          </h2>
+          <div className="mt-8 lg:w-1/2 lg:mx-auto">
+            <button onClick={checkRoundCompleteHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Check</button>
+            <div className="text-center my-6">
+              {roundIsComplete && <code className="text-lg font-bold text-purple-900">Round is complete.</code>}
+              {!roundIsComplete && <code className="text-lg font-bold text-purple-900">Round is not complete.</code>}
+            </div>
+          </div>
+        </div>
+      }
+
 
       <h3>Step 6: Confirm your move, and solve the round</h3>
       <div>
@@ -362,3 +429,9 @@ const New = () => {
 }
 
 export default New
+
+// 0x26012CeC5C940e68C1Aea84ba0018c8217F6D943
+// Rock
+// 0xAFfef56b5EaE0f3107BD5c130591a8496c39a928
+// Spock
+// 0x120AA99CDB05c09a9fe0e32B5a801F6abB5F1032

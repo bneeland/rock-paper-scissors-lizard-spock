@@ -19,7 +19,7 @@ const Join = () => {
 
   const [contractTransactionHashRPS, setContractTransactionHashRPS] = useState(null)
 
-  const [roundIsComplete, setRoundIsComplete] = useState(false)
+  const [roundIsComplete, setRoundIsComplete] = useState()
 
   const contractAddressHasher = "0x024EeF22Cb87B7a18077DaDEA64CC7A05D04Fd27"
   const abiHasher = [{"constant":true,"inputs":[{"name":"_c","type":"uint8"},{"name":"_salt","type":"uint256"}],"name":"hash","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"}]
@@ -259,7 +259,7 @@ const Join = () => {
             Wait
           </h2>
           <p className="text-slate-900 text-lg mb-6">
-            Wait for your opponent to play his/her move.
+            Wait at least 5 minutes for your opponent to play his/her move, then proceed.
           </p>
           <p className="text-slate-900 text-lg mb-6">
             If the other player has not played after 5 minutes, you can use the timeout function, below, to claim victory and win the full stake amount.
@@ -268,13 +268,23 @@ const Join = () => {
         </div>
       }
 
+      {contractTransactionHashRPS &&
+        <div>
+          <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
+            Check if round is complete
+          </h2>
+          <div className="mt-8 lg:w-1/2 lg:mx-auto">
+            <button onClick={checkRoundCompleteHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Check</button>
+            <div className="text-center my-6">
+              {roundIsComplete && <code className="text-lg font-bold text-purple-900">Round is complete.</code>}
+              {!roundIsComplete && <code className="text-lg font-bold text-purple-900">Round is not complete.</code>}
+            </div>
+          </div>
+        </div>
+      }
 
 
 
-      <hr />
-      <p>Wait for player 1 to play his move.</p>
-      <p>If player 1 hasn't played after 5 minutes, you can use the timeout function, below, to claim victory and win the full stake amount.</p>
-      <hr />
 
       <h3>Step 4: Check if round is complete</h3>
       <button onClick={checkRoundCompleteHandler}>Check if round is complete</button>
