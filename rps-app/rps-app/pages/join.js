@@ -163,15 +163,28 @@ const Join = () => {
       }
 
       {accountAddress &&
-        <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
-          Enter contract address and choose your move
-        </h3>
+        <div>
+          <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
+            Enter contract address and choose your move
+          </h3>
+          <div className="lg:w-3/5 xl:w-1/2 lg:mx-auto mb-3">
+            <input onChange={contractAddressRPSInputHandler} placeholder="Contract address" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
+            <div className="text-center text-slate-400">
+              {contractAddressRPS && <small><code>Contract address:<br />{contractAddressRPS}</code></small>}
+            </div>
+          </div>
+        </div>
       }
-      {accountAddress &&
-        <div className="lg:w-3/5 xl:w-1/2 lg:mx-auto mb-3">
-          <input onChange={contractAddressRPSInputHandler} placeholder="Contract address" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
-          <div className="text-center text-slate-400">
-            {contractAddressRPS && <small><code>Contract address:<br />{contractAddressRPS}</code></small>}
+      {contractAddressRPS !== 0 &&
+        <div className="mt-8 lg:w-1/2 lg:mx-auto">
+          <button onClick={getStakeHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Get stake amount</button>
+        </div>
+      }
+      {stake &&
+        <div>
+          <p className="text-slate-900 text-lg font-bold text-center my-6">Stake amount:</p>
+          <div className="text-center">
+            <code className="text-lg font-bold text-purple-900">{stake} ETH</code>
           </div>
         </div>
       }
