@@ -165,11 +165,18 @@ const Join = () => {
         </div>
       }
 
+      {!accountAddress &&
+        <div className="my-32 text-center text-slate-400">
+          Connect your MetaMask wallet to begin
+        </div>
+      }
+
       {accountAddress &&
         <div>
           <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
-            Enter contract address and get stake amount
+            Contract details
           </h2>
+          <p className="text-center mb-6">Get the contract address from the person who created the round.</p>
           <div className="lg:w-3/5 xl:w-1/2 lg:mx-auto mb-3">
             <input onChange={contractAddressRPSInputHandler} placeholder="Contract address" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
             <div className="text-center text-slate-400">
@@ -283,20 +290,17 @@ const Join = () => {
         </div>
       }
 
-
-
-
-      <h3>Step 4: Check if round is complete</h3>
-      <button onClick={checkRoundCompleteHandler}>Check if round is complete</button>
-      {roundIsComplete && <h4>Round is complete.</h4>}
-      {!roundIsComplete && <h4>Round is not complete.</h4>}
-
-      <h3>Timeout</h3>
-      <div>
-        <p>If player 1 hasn't played for 5 minutes after you've accepted the game and made your move, click the button below to claim victory and collect the full staked amount.</p>
-        <button onClick={timeoutPlayer1Handler}>Player 1 hasn't responded—claim victory</button>
-      </div>
-
+      {(contractTransactionHashRPS && (roundIsComplete == null || !roundIsComplete)) &&
+        <div className="lg:w-1/2 mx-auto my-16">
+          <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
+            Timeout
+          </h2>
+          <p>If, after 5 minutes, your opponent has not played his/her move, click the timeout button to reclaim your stake.</p>
+          <div className="mt-8">
+            <button onClick={timeoutPlayer1Handler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Timeout</button>
+          </div>
+        </div>
+      }
     </Layout>
   )
 }

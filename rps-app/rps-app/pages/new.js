@@ -212,6 +212,12 @@ const New = () => {
         </div>
       }
 
+      {!accountAddress &&
+        <div className="my-32 text-center text-slate-400">
+          Connect your MetaMask wallet to begin
+        </div>
+      }
+
       {accountAddress &&
         <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
           Choose your move
@@ -266,7 +272,6 @@ const New = () => {
           <button onClick={getC1HashHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Submit</button>
         </div>
       }
-        <p><small><code>c1Hash: {c1Hash}</code></small></p>
 
       {c1Hash &&
         <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
@@ -401,37 +406,19 @@ const New = () => {
         </div>
       }
 
-
-      <h3>Step 6: Confirm your move, and solve the round</h3>
-      <div>
-        <input type="radio" name="c1Input" id="c1RockConfirm" value="1" onChange={c1InputHandler} /><label htmlFor="c1RockConfirm">Rock</label>
-        <input type="radio" name="c1Input" id="c1PaperConfirm" value="2" onChange={c1InputHandler} /><label htmlFor="c1PaperConfirm">Paper</label>
-        <input type="radio" name="c1Input" id="c1ScissorsConfirm" value="3" onChange={c1InputHandler} /><label htmlFor="c1ScissorsConfirm">Scissors</label>
-        <input type="radio" name="c1Input" id="c1SpockConfirm" value="4" onChange={c1InputHandler} /><label htmlFor="c1SpockConfirm">Spock</label>
-        <input type="radio" name="c1Input" id="c1LizardConfirm" value="5" onChange={c1InputHandler} /><label htmlFor="c1LizardConfirm">Lizard</label>
-        <br /><small><code>c1: {c1}</code></small>
-      </div>
-      <button onClick={solveHandler}>solve</button>
-
-      <h3>Step 7: Check if round is complete</h3>
-      <button onClick={checkRoundCompleteHandler}>Check if round is complete</button>
-      {roundIsComplete && <h4>Round is complete.</h4>}
-      {!roundIsComplete && <h4>Round is not complete.</h4>}
-
-      <h3>Timeout</h3>
-      <div>
-        <p>If player 2 hasn't played for 5 minutes after you've challenged him to a round, click the button below to get your stake back.</p>
-        <button onClick={timeoutPlayer2Handler}>Player 2 hasn't responded—get stake back</button>
-      </div>
-
+      {(contractAddressRPS && (roundIsComplete == null || !roundIsComplete)) &&
+        <div className="lg:w-1/2 mx-auto my-16">
+          <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
+            Timeout
+          </h2>
+          <p>If, after 5 minutes, your opponent has not played his/her move, click the timeout button to reclaim your stake.</p>
+          <div className="mt-8">
+            <button onClick={timeoutPlayer2Handler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Timeout</button>
+          </div>
+        </div>
+      }
     </Layout>
   )
 }
 
 export default New
-
-// 0x26012CeC5C940e68C1Aea84ba0018c8217F6D943
-// Rock
-// 0xAFfef56b5EaE0f3107BD5c130591a8496c39a928
-// Spock
-// 0x120AA99CDB05c09a9fe0e32B5a801F6abB5F1032
