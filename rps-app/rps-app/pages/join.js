@@ -17,6 +17,8 @@ const Join = () => {
 
   const [c2, setC2] = useState(0)
 
+  const [contractTransactionHashRPS, setContractTransactionHashRPS] = useState(null)
+
   const [roundIsComplete, setRoundIsComplete] = useState(false)
 
   const contractAddressHasher = "0x024EeF22Cb87B7a18077DaDEA64CC7A05D04Fd27"
@@ -80,6 +82,7 @@ const Join = () => {
         console.log(e, tx);
         if (typeof tx !== 'undefined') {
           console.log('Contract mined! transaction hash: ' + tx);
+          setContractTransactionHashRPS(tx);
           setError("")
         } else {
           setError(e.message)
@@ -165,7 +168,7 @@ const Join = () => {
       {accountAddress &&
         <div>
           <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
-            Enter contract address and choose your move
+            Enter contract address and get stake amount
           </h3>
           <div className="lg:w-3/5 xl:w-1/2 lg:mx-auto mb-3">
             <input onChange={contractAddressRPSInputHandler} placeholder="Contract address" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
@@ -175,7 +178,7 @@ const Join = () => {
           </div>
         </div>
       }
-      {contractAddressRPS !== 0 &&
+      {contractAddressRPS &&
         <div className="mt-8 lg:w-1/2 lg:mx-auto">
           <button onClick={getStakeHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Get stake amount</button>
         </div>
@@ -189,30 +192,69 @@ const Join = () => {
         </div>
       }
 
+      {stake &&
+        <div>
+          <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
+            Choose your move
+          </h3>
+          <div className="lg:w-1/2 lg:mx-auto">
+            <div class="relative mb-3">
+              <input type="radio" name="c2Input" id="c2rock" value="1" onChange={c2InputHandler} class="hidden peer" />
+              <label for="c2rock" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+                <div>
+                  <h6 class="text-xl font-bold">Rock</h6>
+                </div>
+              </label>
+            </div>
+            <div class="relative mb-3">
+              <input type="radio" name="c2Input" id="c2paper" value="2" onChange={c2InputHandler} class="hidden peer" />
+              <label for="c2paper" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+                <div>
+                  <h6 class="text-xl font-bold">Paper</h6>
+                </div>
+              </label>
+            </div>
+            <div class="relative mb-3">
+              <input type="radio" name="c2Input" id="c2scissors" value="3" onChange={c2InputHandler} class="hidden peer" />
+              <label for="c2scissors" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+                <div>
+                  <h6 class="text-xl font-bold">Scissors</h6>
+                </div>
+              </label>
+            </div>
+            <div class="relative mb-3">
+              <input type="radio" name="c2Input" id="c2spock" value="4" onChange={c2InputHandler} class="hidden peer" />
+              <label for="c2spock" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+                <div>
+                  <h6 class="text-xl font-bold">Spock</h6>
+                </div>
+              </label>
+            </div>
+            <div class="relative mb-3">
+              <input type="radio" name="c2Input" id="c2lizard" value="5" onChange={c2InputHandler} class="hidden peer" />
+              <label for="c2lizard" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+                <div>
+                  <h6 class="text-xl font-bold">Lizard</h6>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      }
+      {c2 !== 0 &&
+        <div className="mt-8 lg:w-1/2 lg:mx-auto">
+          <button onClick={playHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Submit and play</button>
+        </div>
+      }
+      {contractTransactionHashRPS &&
+        <div className="text-center text-slate-400">
+          <small><code>Contract transaction hash:<br />{contractTransactionHashRPS}</code></small>
+        </div>
+      }
 
 
 
-      <hr />
-      Errors: {error}
-      <hr />
-      <button onClick={connectWalletHandler}>Connect wallet</button>
-      <p><small><code>Account: {accountAddress}</code></small></p>
-      <hr />
-      <h1 className="text-2xl font-bold underline">Rock Paper Scissors Spock Lizard</h1>
-      <Link href="/">
-        <a>Home</a>
-      </Link>
 
-      <h3>Step 1: Set RPS contract address</h3>
-      <p>Player 1 should have deployed an RPS contract to start a game for you to join, and should have staked ETH into that RPS contract as a bet on the game.</p>
-      <p>You need to get the address of that RPS contract so you can join as player 2 for that game.</p>
-      <div>
-        <input onChange={contractAddressRPSInputHandler} placeholder="RPS contract address" />
-        <br /><small><code>RPS contract address: {contractAddressRPS}</code></small>
-      </div>
-      <h3>Step 2: Get stake</h3>
-      <button onClick={getStakeHandler}>Get stake</button>
-      <p><small><code>Stake: {stake} ETH</code></small></p>
       <h3>Step 3: Pick a move, accept the stake, and commit to the contract</h3>
       <div>
         <input type="radio" name="c2Input" id="c2rock" value="1" onChange={c2InputHandler} /><label htmlFor="c2rock">Rock</label>

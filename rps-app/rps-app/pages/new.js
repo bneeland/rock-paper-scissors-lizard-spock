@@ -294,9 +294,11 @@ const New = () => {
           <button onClick={deployRPSHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Create contract</button>
         </div>
       }
-      <div className="text-center text-slate-400">
-        {contractTransactionHashRPS &&<small><code>Contract transaction hash:<br />{contractTransactionHashRPS}</code></small>}
-      </div>
+      {contractTransactionHashRPS &&
+        <div className="text-center text-slate-400">
+          <small><code>Contract transaction hash:<br />{contractTransactionHashRPS}</code></small>
+        </div>
+      }
       {contractTransactionHashRPS &&
         <div className="p-10 border bg-white rounded-xl my-6">
           <p className="text-slate-900 text-lg font-bold text-center mb-6">Get the contract address and send it to another player to join the round:</p>
