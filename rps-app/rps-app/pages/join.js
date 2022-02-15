@@ -167,9 +167,9 @@ const Join = () => {
 
       {accountAddress &&
         <div>
-          <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
+          <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
             Enter contract address and get stake amount
-          </h3>
+          </h2>
           <div className="lg:w-3/5 xl:w-1/2 lg:mx-auto mb-3">
             <input onChange={contractAddressRPSInputHandler} placeholder="Contract address" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
             <div className="text-center text-slate-400">
@@ -194,9 +194,9 @@ const Join = () => {
 
       {stake &&
         <div>
-          <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
+          <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
             Choose your move
-          </h3>
+          </h2>
           <div className="lg:w-1/2 lg:mx-auto">
             <div class="relative mb-3">
               <input type="radio" name="c2Input" id="c2rock" value="1" onChange={c2InputHandler} class="hidden peer" />
@@ -248,23 +248,28 @@ const Join = () => {
       }
       {contractTransactionHashRPS &&
         <div className="text-center text-slate-400">
-          <small><code>Contract transaction hash:<br />{contractTransactionHashRPS}</code></small>
+          <small><code>Transaction hash:<br />{contractTransactionHashRPS}</code></small>
+        </div>
+      }
+
+      {contractTransactionHashRPS &&
+        <div className="lg:w-1/2 mx-auto my-16">
+          <hr />
+          <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
+            Wait
+          </h2>
+          <p className="text-slate-900 text-lg mb-6">
+            Wait for your opponent to play his/her move.
+          </p>
+          <p className="text-slate-900 text-lg mb-6">
+            If the other player has not played after 5 minutes, you can use the timeout function, below, to claim victory and win the full stake amount.
+          </p>
+          <hr />
         </div>
       }
 
 
 
-
-      <h3>Step 3: Pick a move, accept the stake, and commit to the contract</h3>
-      <div>
-        <input type="radio" name="c2Input" id="c2rock" value="1" onChange={c2InputHandler} /><label htmlFor="c2rock">Rock</label>
-        <input type="radio" name="c2Input" id="c2paper" value="2" onChange={c2InputHandler} /><label htmlFor="c2paper">Paper</label>
-        <input type="radio" name="c2Input" id="c2scissors" value="3" onChange={c2InputHandler} /><label htmlFor="c2scissors">Scissors</label>
-        <input type="radio" name="c2Input" id="c2spock" value="4" onChange={c2InputHandler} /><label htmlFor="c2spock">Spock</label>
-        <input type="radio" name="c2Input" id="c2lizard" value="5" onChange={c2InputHandler} /><label htmlFor="c2lizard">Lizard</label>
-        <br /><small><code>c2: {c2}</code></small>
-      </div>
-      <button onClick={playHandler}>play</button>
 
       <hr />
       <p>Wait for player 1 to play his move.</p>

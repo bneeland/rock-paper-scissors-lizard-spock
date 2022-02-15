@@ -213,9 +213,9 @@ const New = () => {
       }
 
       {accountAddress &&
-        <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
+        <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
           Choose your move
-        </h3>
+        </h2>
       }
       {accountAddress &&
         <div className="lg:w-1/2 lg:mx-auto">
@@ -269,9 +269,9 @@ const New = () => {
         <p><small><code>c1Hash: {c1Hash}</code></small></p>
 
       {c1Hash &&
-        <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
+        <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
           Create contract
-        </h3>
+        </h2>
       }
       {c1Hash &&
         <div className="lg:w-3/5 xl:w-1/2 lg:mx-auto mb-3">
@@ -296,7 +296,7 @@ const New = () => {
       }
       {contractTransactionHashRPS &&
         <div className="text-center text-slate-400">
-          <small><code>Contract transaction hash:<br />{contractTransactionHashRPS}</code></small>
+          <small><code>Transaction hash:<br />{contractTransactionHashRPS}</code></small>
         </div>
       }
       {contractTransactionHashRPS &&
@@ -311,6 +311,22 @@ const New = () => {
               <code className="text-lg font-bold text-purple-900">{contractAddressRPS}</code>
             </div>
           }
+        </div>
+      }
+
+      {contractAddressRPS &&
+        <div className="lg:w-1/2 mx-auto my-16">
+          <hr />
+          <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
+            Wait
+          </h2>
+          <p className="text-slate-900 text-lg mb-6">
+            Wait for your opponent to play his/her move.
+          </p>
+          <p className="text-slate-900 text-lg mb-6">
+            If the other player has not played after 5 minutes, you can use the timeout function, below, to get your stake back.
+          </p>
+          <hr />
         </div>
       }
 
