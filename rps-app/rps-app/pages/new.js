@@ -274,7 +274,7 @@ const New = () => {
         </h3>
       }
       {c1Hash &&
-        <div className="lg:w-1/2 lg:mx-auto mb-3">
+        <div className="lg:w-3/5 xl:w-1/2 lg:mx-auto mb-3">
           <input onChange={j2InputHandler} placeholder="Opponent's account address" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
           <div className="text-center text-slate-400">
             {j2 && <small><code>Opponent's account address:<br />{j2}</code></small>}
@@ -291,7 +291,7 @@ const New = () => {
       }
       {j2 && stake &&
         <div className="lg:w-1/2 lg:mx-auto">
-          <button onClick={deployRPSHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Create contract for this round</button>
+          <button onClick={deployRPSHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Create contract</button>
         </div>
       }
       <div className="text-center text-slate-400">

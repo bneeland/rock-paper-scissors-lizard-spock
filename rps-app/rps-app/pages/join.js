@@ -131,6 +131,54 @@ const Join = () => {
       <Head>
         <title>Join existing round - Rock Paper Scissors Spock Lizard</title>
       </Head>
+      <div className="mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
+          <div className="lg:col-span-1 my-auto">
+            <Link href="/">
+              <a className="text-slate-600">&larr; Home</a>
+            </Link>
+          </div>
+          <div className="lg:col-span-4 my-auto">
+            <h1 className="text-xl font-bold text-center text-slate-500 my-4">Rock Paper Scissors Spock Lizard</h1>
+          </div>
+          <div className="lg:col-span-1 my-auto text-center md:text-right">
+            <button onClick={connectWalletHandler} className="py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">
+              Connect&nbsp;wallet
+            </button>
+          </div>
+        </div>
+        <div className="h-14 sm:h-7 text-center lg:text-right text-slate-400">
+          {accountAddress && <small><code>Connected to: {accountAddress}</code></small>}
+        </div>
+      </div>
+
+      {error &&
+        <div className="fixed bottom-10 left-0 right-0 border z-50">
+          <div className="text-center">
+            <span class="bg-amber-100 drop-shadow-lg p-4 rounded-xl">
+              Error: {error} <button onClick={() => {setError("")}}><svg class="fill-current h-4 w-4" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg></button>
+            </span>
+          </div>
+        </div>
+      }
+
+      {accountAddress &&
+        <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
+          Enter contract address and choose your move
+        </h3>
+      }
+      {accountAddress &&
+        <div className="lg:w-3/5 xl:w-1/2 lg:mx-auto mb-3">
+          <input onChange={contractAddressRPSInputHandler} placeholder="Contract address" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
+          <div className="text-center text-slate-400">
+            {contractAddressRPS && <small><code>Contract address:<br />{contractAddressRPS}</code></small>}
+          </div>
+        </div>
+      }
+
+
+
+
       <hr />
       Errors: {error}
       <hr />
