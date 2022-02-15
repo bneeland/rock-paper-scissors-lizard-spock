@@ -12,6 +12,7 @@ const New = () => {
   const [accountAddress, setAccountAddress] = useState(null)
 
   const [c1CommitmentInput, setC1CommitmentInput] = useState(0)
+  const [salt, setSalt] = useState()
   const [c1Hash, setC1Hash] = useState(null)
 
   const [j2, setJ2] = useState(null)
@@ -55,10 +56,14 @@ const New = () => {
     setC1CommitmentInput(event.target.value)
   }
 
+  const saltInputHandler = event => {
+    setSalt(event.target.value)
+  }
+
   const getC1HashHandler = () => {
     try {
       var contractHasher = new web3.eth.Contract(abiHasher, contractAddressHasher)
-      contractHasher.methods.hash(c1CommitmentInput, 123).call((error, result) => {
+      contractHasher.methods.hash(c1CommitmentInput, salt).call((error, result) => {
         setC1Hash(result)
       })
       setError("")
@@ -114,6 +119,10 @@ const New = () => {
     } catch(error) {
       setError(error.message)
     }
+  }
+
+  const contractAddressRPSInputHandler = event => {
+    setContractAddressRPS(event.target.value)
   }
 
   const c1InputHandler = event => {
@@ -268,6 +277,19 @@ const New = () => {
         </div>
       }
       {c1CommitmentInput !== 0 &&
+        <div className="w-1/2 my-10 mx-auto">
+          <div className="mb-6">
+            <p className="text-slate-900 text-lg font-bold text-center mb-6">Choose a random integer between 0 and 255 (inclusive).</p>
+            <p>This will make sure that your move can't be determined by your opponent.</p>
+            <p>Keep this value secret&mdash;do not reveal it to anyone. You need this value if you refresh this page during the course of the round.</p>
+          </div>
+          <input onChange={saltInputHandler} type="range" id="volume" name="volume" min="0" max="255" className="w-full" />
+          <div className="text-center text-slate-400">
+            {salt && <small><code>Salt value: {salt}</code></small>}
+          </div>
+        </div>
+      }
+      {(salt && salt>=0 && salt<=255) &&
         <div className="mt-8 lg:w-1/2 lg:mx-auto">
           <button onClick={getC1HashHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Submit</button>
         </div>
@@ -306,7 +328,7 @@ const New = () => {
       }
       {contractTransactionHashRPS &&
         <div className="p-10 border bg-white rounded-xl my-6">
-          <p className="text-slate-500 text-center">After the contract transaction is executed:</p>
+          <p className="text-slate-500 text-center mb-4">After the contract transaction is executed:</p>
           <p className="text-slate-900 text-lg font-bold text-center mb-6">Get the contract address and send it to another player to join the round</p>
 
             <div className="lg:w-1/2 lg:mx-auto mb-6">
@@ -319,6 +341,21 @@ const New = () => {
           }
         </div>
       }
+      {(accountAddress && !contractTransactionHashRPS && !c1CommitmentInput) &&
+        <div>
+          <p className="my-20 text-center font-bold">Or</p>
+          <h2 className="text-center text-3xl my-10 text-purple-900 font-bold">
+            Re-enter existing round
+          </h2>
+          <div className="lg:w-3/5 xl:w-1/2 lg:mx-auto mb-3">
+            <input onChange={contractAddressRPSInputHandler} placeholder="Contract address" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
+            <div className="text-center text-slate-400">
+              {contractAddressRPS && <small><code>Contract address:<br />{contractAddressRPS}</code></small>}
+            </div>
+          </div>
+        </div>
+      }
+
 
       {contractAddressRPS &&
         <div className="lg:w-1/2 mx-auto my-16">
