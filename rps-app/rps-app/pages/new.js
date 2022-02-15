@@ -179,7 +179,7 @@ const New = () => {
   return (
     <Layout>
       <Head>
-        <title>New round - Rock Paper Scissors Spock Lizard</title>
+        <title>New round - Rock Paper Scissors Lizard Spock</title>
       </Head>
       <div className="mb-4">
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
@@ -189,7 +189,7 @@ const New = () => {
             </Link>
           </div>
           <div className="lg:col-span-4 my-auto">
-            <h1 className="text-xl font-bold text-center text-slate-500 my-4">Rock Paper Scissors Spock Lizard</h1>
+            <h1 className="text-xl font-bold text-center text-slate-500 my-4">Rock Paper Scissors Lizard Spock</h1>
           </div>
           <div className="lg:col-span-1 my-auto text-center md:text-right">
             <button onClick={connectWalletHandler} className="py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">
@@ -250,18 +250,18 @@ const New = () => {
             </label>
           </div>
           <div class="relative mb-3">
-            <input type="radio" name="c1CommitmentInput" id="c1SpockCommit" value="4" onChange={c1CommitmentInputHandler} class="hidden peer" />
-            <label for="c1SpockCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <input type="radio" name="c1CommitmentInput" id="c1LizardCommit" value="4" onChange={c1CommitmentInputHandler} class="hidden peer" />
+            <label for="c1LizardCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
-                <h6 class="text-xl font-bold">Spock</h6>
+                <h6 class="text-xl font-bold">Lizard</h6>
               </div>
             </label>
           </div>
           <div class="relative mb-3">
-            <input type="radio" name="c1CommitmentInput" id="c1LizardCommit" value="5" onChange={c1CommitmentInputHandler} class="hidden peer" />
-            <label for="c1LizardCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <input type="radio" name="c1CommitmentInput" id="c1SpockCommit" value="5" onChange={c1CommitmentInputHandler} class="hidden peer" />
+            <label for="c1SpockCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
-                <h6 class="text-xl font-bold">Lizard</h6>
+                <h6 class="text-xl font-bold">Spock</h6>
               </div>
             </label>
           </div>
@@ -368,18 +368,18 @@ const New = () => {
             </label>
           </div>
           <div class="relative mb-3">
-            <input type="radio" name="c1Input" id="c1SpockConfirm" value="4" onChange={c1InputHandler} class="hidden peer" />
-            <label for="c1SpockConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <input type="radio" name="c1Input" id="c1LizardConfirm" value="4" onChange={c1InputHandler} class="hidden peer" />
+            <label for="c1LizardConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
-                <h6 class="text-xl font-bold">Spock</h6>
+                <h6 class="text-xl font-bold">Lizard</h6>
               </div>
             </label>
           </div>
           <div class="relative mb-3">
-            <input type="radio" name="c1Input" id="c1LizardConfirm" value="5" onChange={c1InputHandler} class="hidden peer" />
-            <label for="c1LizardConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <input type="radio" name="c1Input" id="c1SpockConfirm" value="5" onChange={c1InputHandler} class="hidden peer" />
+            <label for="c1SpockConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
-                <h6 class="text-xl font-bold">Lizard</h6>
+                <h6 class="text-xl font-bold">Spock</h6>
               </div>
             </label>
           </div>
