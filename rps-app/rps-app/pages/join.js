@@ -156,10 +156,10 @@ const Join = () => {
       </div>
 
       {error &&
-        <div className="fixed bottom-10 left-0 right-0 border z-50">
+        <div className="fixed bottom-10 left-0 right-0 z-50">
           <div className="text-center">
             <span class="bg-amber-100 drop-shadow-lg p-4 rounded-xl">
-              Error: {error} <button onClick={() => {setError("")}}><svg class="fill-current h-4 w-4" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg></button>
+              {error} <button onClick={() => {setError("")}}><svg class="fill-current h-4 w-4" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg></button>
             </span>
           </div>
         </div>
@@ -250,7 +250,7 @@ const Join = () => {
       }
       {c2 !== 0 &&
         <div className="mt-8 lg:w-1/2 lg:mx-auto">
-          <button onClick={playHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Submit and play</button>
+          <button onClick={playHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Play</button>
         </div>
       }
       {contractTransactionHashRPS &&
