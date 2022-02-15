@@ -227,7 +227,7 @@ const New = () => {
         <div className="lg:w-1/2 lg:mx-auto">
           <div class="relative mb-3">
             <input type="radio" name="c1CommitmentInput" id="c1RockCommit" value="1" onChange={c1CommitmentInputHandler} class="hidden peer" />
-            <label for="c1RockCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1RockCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Rock</h6>
               </div>
@@ -235,7 +235,7 @@ const New = () => {
           </div>
           <div class="relative mb-3">
             <input type="radio" name="c1CommitmentInput" id="c1PaperCommit" value="2" onChange={c1CommitmentInputHandler} class="hidden peer" />
-            <label for="c1PaperCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1PaperCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Paper</h6>
               </div>
@@ -243,7 +243,7 @@ const New = () => {
           </div>
           <div class="relative mb-3">
             <input type="radio" name="c1CommitmentInput" id="c1ScissorsCommit" value="3" onChange={c1CommitmentInputHandler} class="hidden peer" />
-            <label for="c1ScissorsCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1ScissorsCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Scissors</h6>
               </div>
@@ -251,7 +251,7 @@ const New = () => {
           </div>
           <div class="relative mb-3">
             <input type="radio" name="c1CommitmentInput" id="c1SpockCommit" value="4" onChange={c1CommitmentInputHandler} class="hidden peer" />
-            <label for="c1SpockCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1SpockCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Spock</h6>
               </div>
@@ -259,7 +259,7 @@ const New = () => {
           </div>
           <div class="relative mb-3">
             <input type="radio" name="c1CommitmentInput" id="c1LizardCommit" value="5" onChange={c1CommitmentInputHandler} class="hidden peer" />
-            <label for="c1LizardCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1LizardCommit" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Lizard</h6>
               </div>
@@ -345,7 +345,7 @@ const New = () => {
         <div className="lg:w-1/2 lg:mx-auto">
           <div class="relative mb-3">
             <input type="radio" name="c1Input" id="c1RockConfirm" value="1" onChange={c1InputHandler} class="hidden peer" />
-            <label for="c1RockConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1RockConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Rock</h6>
               </div>
@@ -353,7 +353,7 @@ const New = () => {
           </div>
           <div class="relative mb-3">
             <input type="radio" name="c1Input" id="c1PaperConfirm" value="2" onChange={c1InputHandler} class="hidden peer" />
-            <label for="c1PaperConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1PaperConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Paper</h6>
               </div>
@@ -361,7 +361,7 @@ const New = () => {
           </div>
           <div class="relative mb-3">
             <input type="radio" name="c1Input" id="c1ScissorsConfirm" value="3" onChange={c1InputHandler} class="hidden peer" />
-            <label for="c1ScissorsConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1ScissorsConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Scissors</h6>
               </div>
@@ -369,7 +369,7 @@ const New = () => {
           </div>
           <div class="relative mb-3">
             <input type="radio" name="c1Input" id="c1SpockConfirm" value="4" onChange={c1InputHandler} class="hidden peer" />
-            <label for="c1SpockConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1SpockConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Spock</h6>
               </div>
@@ -377,7 +377,7 @@ const New = () => {
           </div>
           <div class="relative mb-3">
             <input type="radio" name="c1Input" id="c1LizardConfirm" value="5" onChange={c1InputHandler} class="hidden peer" />
-            <label for="c1LizardConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <label for="c1LizardConfirm" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-blue-100 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
               <div>
                 <h6 class="text-xl font-bold">Lizard</h6>
               </div>
