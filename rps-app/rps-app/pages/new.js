@@ -197,7 +197,7 @@ const New = () => {
             </button>
           </div>
         </div>
-        <div className="h-14 sm:h-7 text-center lg:text-right text-slate-600">
+        <div className="h-14 sm:h-7 text-center lg:text-right text-slate-400">
           {accountAddress && <small><code>Connected to: {accountAddress}</code></small>}
         </div>
       </div>
@@ -261,23 +261,56 @@ const New = () => {
           </div>
         </div>
       }
-      {c1CommitmentInput !== 0 && <div className="mt-8 lg:w-1/2 lg:mx-auto"><button onClick={getC1HashHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Submit</button></div>}
+      {c1CommitmentInput !== 0 &&
+        <div className="mt-8 lg:w-1/2 lg:mx-auto">
+          <button onClick={getC1HashHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Submit</button>
+        </div>
+      }
         <p><small><code>c1Hash: {c1Hash}</code></small></p>
 
+      {c1Hash &&
+        <h3 className="text-center text-3xl my-10 text-purple-900 font-bold">
+          Create contract
+        </h3>
+      }
+      {c1Hash &&
+        <div className="lg:w-1/2 lg:mx-auto mb-3">
+          <input onChange={j2InputHandler} placeholder="Opponent's account address" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
+          <div className="text-center text-slate-400">
+            {j2 && <small><code>Opponent's account address:<br />{j2}</code></small>}
+          </div>
+        </div>
+      }
+      {c1Hash &&
+        <div className="lg:w-1/2 lg:mx-auto mb-3">
+          <input onChange={stakeInputHandler} placeholder="Stake amount (ETH)" className="w-full px-4 py-3 rounded-xl bg-white shadow-lg border text-lg font-bold" />
+          <div className="text-center text-slate-400">
+            {stake && <small><code>Stake amount: {stake} ETH</code></small>}
+          </div>
+        </div>
+      }
+      {j2 && stake &&
+        <div className="lg:w-1/2 lg:mx-auto">
+          <button onClick={deployRPSHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Create contract for this round</button>
+        </div>
+      }
+      <div className="text-center text-slate-400">
+        {contractTransactionHashRPS &&<small><code>Contract transaction hash:<br />{contractTransactionHashRPS}</code></small>}
+      </div>
+      {contractTransactionHashRPS &&
+        <div className="p-10 border bg-white rounded-xl my-6">
+          <p className="text-slate-900 text-lg font-bold text-center mb-6">Get the contract address and send it to another player to join the round:</p>
 
-      <h3>Step 2: Deploy RPS contract</h3>
-      <div>
-        <input onChange={j2InputHandler} placeholder="Opponent's account address" />
-        <br /><small><code>j2: {j2}</code></small>
-      </div>
-      <div>
-        <input onChange={stakeInputHandler} placeholder="Stake (in ETH)" />
-        <br /><small><code>Stake: {stake} ETH</code></small>
-      </div>
-      <button onClick={deployRPSHandler}>Deploy RPS</button>
-      <p><small><code>RPS contract transaction hash: {contractTransactionHashRPS}</code></small></p>
-      <button onClick={getRPSContractAddressHandler}>Get RPS contract address</button>
-      <p><small><code>RPS contract address: {contractAddressRPS}</code></small></p>
+            <div className="lg:w-1/2 lg:mx-auto mb-6">
+              <button onClick={getRPSContractAddressHandler} className="text-center py-3 px-4 text-white rounded-xl w-full bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">Get contract address</button>
+            </div>
+          {contractAddressRPS &&
+            <div className="text-center">
+              <code className="text-lg font-bold text-purple-900">{contractAddressRPS}</code>
+            </div>
+          }
+        </div>
+      }
 
       <hr />
       <p>Wait for player 2 to play his move.</p>
