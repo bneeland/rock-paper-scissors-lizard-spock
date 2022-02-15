@@ -25,7 +25,7 @@ const Home = () => {
         <Link href="/join">
           <a className="block p-8 rounded-xl bg-gradient-to-r from-purple-800 to-fuchsia-600 hover:bg-gradient-to-r hover:from-purple-900 hover:to-fuchsia-700 hover:drop-shadow-lg">
           <h3 className="text-2xl font-bold text-white">Join an existing round</h3>
-          <p className="text-lg text-white my-3">Match someone's stake in ETH and take them on in a round</p>
+          <p className="text-lg text-white my-3">Match someone&apos;s stake in ETH and take them on in a round</p>
           <p className="text-white my-3"><small>You will need the contract address of the round you want to join.</small></p>
           </a>
         </Link>

@@ -158,8 +158,8 @@ const Join = () => {
       {error &&
         <div className="fixed bottom-10 left-0 right-0 z-50">
           <div className="text-center">
-            <span class="bg-amber-100 drop-shadow-lg p-4 rounded-xl">
-              {error} <button onClick={() => {setError("")}}><svg class="fill-current h-4 w-4" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg></button>
+            <span className="bg-amber-100 drop-shadow-lg p-4 rounded-xl">
+              {error} <button onClick={() => {setError("")}}><svg className="fill-current h-4 w-4" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg></button>
             </span>
           </div>
         </div>
@@ -205,43 +205,43 @@ const Join = () => {
             Choose your move
           </h2>
           <div className="lg:w-1/2 lg:mx-auto">
-            <div class="relative mb-3">
-              <input type="radio" name="c2Input" id="c2Rock" value="1" onChange={c2InputHandler} class="hidden peer" />
-              <label for="c2Rock" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <div className="relative mb-3">
+              <input type="radio" name="c2Input" id="c2Rock" value="1" onChange={c2InputHandler} className="hidden peer" />
+              <label htmlFor="c2Rock" className="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
                 <div>
-                  <h6 class="text-xl font-bold">Rock</h6>
+                  <h6 className="text-xl font-bold">Rock</h6>
                 </div>
               </label>
             </div>
-            <div class="relative mb-3">
-              <input type="radio" name="c2Input" id="c2Paper" value="2" onChange={c2InputHandler} class="hidden peer" />
-              <label for="c2Paper" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <div className="relative mb-3">
+              <input type="radio" name="c2Input" id="c2Paper" value="2" onChange={c2InputHandler} className="hidden peer" />
+              <label htmlFor="c2Paper" className="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
                 <div>
-                  <h6 class="text-xl font-bold">Paper</h6>
+                  <h6 className="text-xl font-bold">Paper</h6>
                 </div>
               </label>
             </div>
-            <div class="relative mb-3">
-              <input type="radio" name="c2Input" id="c2Scissors" value="3" onChange={c2InputHandler} class="hidden peer" />
-              <label for="c2Scissors" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <div className="relative mb-3">
+              <input type="radio" name="c2Input" id="c2Scissors" value="3" onChange={c2InputHandler} className="hidden peer" />
+              <label htmlFor="c2Scissors" className="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
                 <div>
-                  <h6 class="text-xl font-bold">Scissors</h6>
+                  <h6 className="text-xl font-bold">Scissors</h6>
                 </div>
               </label>
             </div>
-            <div class="relative mb-3">
-              <input type="radio" name="c2Input" id="c2Lizard" value="4" onChange={c2InputHandler} class="hidden peer" />
-              <label for="c2Lizard" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <div className="relative mb-3">
+              <input type="radio" name="c2Input" id="c2Lizard" value="4" onChange={c2InputHandler} className="hidden peer" />
+              <label htmlFor="c2Lizard" className="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
                 <div>
-                  <h6 class="text-xl font-bold">Lizard</h6>
+                  <h6 className="text-xl font-bold">Lizard</h6>
                 </div>
               </label>
             </div>
-            <div class="relative mb-3">
-              <input type="radio" name="c2Input" id="c2Spock" value="5" onChange={c2InputHandler} class="hidden peer" />
-              <label for="c2Spock" class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
+            <div className="relative mb-3">
+              <input type="radio" name="c2Input" id="c2Spock" value="5" onChange={c2InputHandler} className="hidden peer" />
+              <label htmlFor="c2Spock" className="flex items-center gap-4 px-4 py-3 rounded-xl bg-white shadow-lg hover:bg-purple-200 peer-checked:bg-purple-700 peer-checked:text-white cursor-pointer">
                 <div>
-                  <h6 class="text-xl font-bold">Spock</h6>
+                  <h6 className="text-xl font-bold">Spock</h6>
                 </div>
               </label>
             </div>
